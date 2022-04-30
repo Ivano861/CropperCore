@@ -1,0 +1,526 @@
+﻿@page "/cropperwrapper"
+@using CropperCore.Enumerates
+
+<h3>CropperWrapper</h3>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            @*<div class="container">*@
+            <div class="row">
+                <!-- <h3>Demo:</h3> -->
+                <div class="docs-demo">
+                    <div class="img-container">
+                        <img @ref="imgRef" id="image" src="@imgUrl" alt="Picture">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="docs-preview clearfix">
+                        <div class="img-preview preview-lg"></div>
+                        <div class="img-preview preview-md"></div>
+                        <div class="img-preview preview-sm"></div>
+                        <div class="img-preview preview-xs"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => SetDragMode(DragMode.Move))" data-toggle="tooltip" data-placement="top" title="DragMode move">
+                            <span class="fa fa-arrows-alt"></span>
+                            @*<span  class="fa-solid fa-arrows-up-down-left-right"></span>*@
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => SetDragMode(DragMode.Crop))" data-toggle="tooltip" data-placement="top" title="DragMode crop">
+                            <span class="fa fa-crop-alt"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Zoom(0.1))" data-toggle="tooltip" data-placement="top" title="Zoom in">
+                            <span class="fa fa-search-plus"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Zoom(-0.1))" data-toggle="tooltip" data-placement="top" title="Zoom out">
+                            <span class="fa fa-search-minus"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Move(-10.0, 0.0))" data-toggle="tooltip" data-placement="top" title="Move left">
+                            <span class="fa fa-arrow-left"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Move(10.0, 0.0))" data-toggle="tooltip" data-placement="top" title="Move right">
+                            <span class="fa fa-arrow-right"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Move(0.0, -10.0))" data-toggle="tooltip" data-placement="top" title="Move up">
+                            <span class="fa fa-arrow-up"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Move(0.0, 10.0))" data-toggle="tooltip" data-placement="top" title="Move down">
+                            <span class="fa fa-arrow-down"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Rotate(-45.0))" data-toggle="tooltip" data-placement="top" title="Rotate left">
+                            <span class="fa fa-undo-alt"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Rotate(45.0))" data-toggle="tooltip" data-placement="top" title="Rotate right">
+                            <span class="fa fa-redo-alt"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => ScaleX(-1))" data-toggle="tooltip" data-placement="top" title="Scale X">
+                            <span class="fa fa-arrows-alt-h"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => ScaleY(-1.0))" data-toggle="tooltip" data-placement="top" title="Scale Y">
+                            <span class="fa fa-arrows-alt-v"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Crop())" data-toggle="tooltip" data-placement="top" title="Crop">
+                            <span class="fa fa-check"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Clear())" data-toggle="tooltip" data-placement="top" title="Clear">
+                            <span class="fa fa-times"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Disable())" data-toggle="tooltip" data-placement="top" title="Disable">
+                            <span class="fa fa-lock"></span>
+                        </button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Enable())" data-toggle="tooltip" data-placement="top" title="Enable">
+                            <span class="fa fa-unlock"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Reset())" data-toggle="tooltip" data-placement="top" title="Reset">
+                            <span class="fa fa-sync-alt"></span>
+                        </button>
+                        <label class="btn btn-primary btn-upload" for="inputImage" title="Upload image file">
+                            @*<input type="file" class="sr-only" id="inputImage" name="file" accept="image/*">*@
+                            <InputFile hidden="true" id="inputImage" OnChange="DisplayImageUsingStreaming" accept="image/*" />
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Import image with Blob URLs">
+                                <span class="fa fa-upload"></span>
+                            </span>
+                        </label>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => Destroy())" data-toggle="tooltip" data-placement="top" title="Destroy">
+                            <span class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+
+                    <div class="btn-group btn-group-crop">
+                        <button type="button" class="btn btn-success" @onclick="@(() => GetCroppedCanvas(0, 0, 4096, 4096))" data-toggle="tooltip" data-placement="top" title="{ maxWidth: 4096, maxHeight: 4096 }">
+                            Get Cropped Canvas
+                        </button>
+                        <button type="button" class="btn btn-success" @onclick="@(() => GetCroppedCanvas(160, 90))" data-toggle="tooltip" data-placement="top" title="getCroppedCanvas({ width: 160, height: 90 })">
+                            160&times;90
+                        </button>
+                        <button type="button" class="btn btn-success" @onclick="@(() => GetCroppedCanvas(320, 180))" data-toggle="tooltip" data-placement="top" title="getCroppedCanvas({ width: 320, height: 180 }">
+                            320&times;180
+                        </button>
+                    </div>
+
+
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => GetData())" data-toggle="tooltip" data-placement="top" title="getData">
+                        Get Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SetData())" data-toggle="tooltip" data-placement="top" title="setData">
+                        Set Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => GetContainerData())" data-toggle="tooltip" data-placement="top" title="getContainerData">
+                        Get Container Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => GetImageData())" data-toggle="tooltip" data-placement="top" title="getImageData">
+                        Get Image Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => GetCanvasData())" data-toggle="tooltip" data-placement="top" title="getCanvasData">
+                        Get Canvas Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SetCanvasData())" data-toggle="tooltip" data-placement="top" title="setCanvasData">
+                        Set Canvas Data
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => GetCropBoxData())" data-toggle="tooltip" data-placement="top" title="getCropBoxData">
+                        Get Crop Box Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => SetCropBoxData())" data-toggle="tooltip" data-placement="top" title="setCropBoxData">
+                        Set Crop Box Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => MoveTo(0))" data-toggle="tooltip" data-placement="top" title="moveTo(0)">
+                        Move to [0,0]
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => ZoomTo(1))" data-toggle="tooltip" data-placement="top" title="zoomTo(0)">
+                        Zoom to 100%
+                    </button>
+
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => RotateTo(180))" data-toggle="tooltip" data-placement="top" title="rotateTo(180)">
+                        Rotate 180°
+                    </button>
+                    <button type="button" class="btn btn-secondary" @onclick="@(() => Scale(-2, -1))" data-toggle="tooltip" data-placement="top" title="scale(-2, -1)">
+                        Scale (-2, -1)
+                    </button>
+
+                    <textarea class="form-control" id="putData" placeholder="Get data to here or set data with this value"
+                              @bind="jsonIO"></textarea>
+
+
+                </div>
+            </div>
+            @*</div>*@
+        </div>
+
+        <div class="col-md-3">
+            <div class="row">
+                <div class="container">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="responsive"
+                               @onchange="@((args) => SetResponsive(args))"
+                               checked="@(Options.Responsive)" />
+                        <label class="form-check-label" for="responsive">responsive</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="restore"
+                               @onchange="@((args) => SetRestore(args))"
+                               checked="@(Options.Restore)" />
+                        <label class="form-check-label" for="restore">restore</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkCrossOrigin"
+                               @onchange="@((args) => SetCheckCrossOrigin(args))"
+                               checked="@(Options.CheckCrossOrigin)" />
+                        <label class="form-check-label" for="checkCrossOrigin">checkCrossOrigin</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="checkOrientation"
+                               @onchange="@((args) => SetCheckOrientation(args))"
+                               checked="@(Options.CheckOrientation)" />
+                        <label class="form-check-label" for="checkOrientation">checkOrientation</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="modal"
+                               @onchange="@((args) => SetModal(args))"
+                               checked="@(Options.Modal)" />
+                        <label class="form-check-label" for="modal">modal</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="guides"
+                               @onchange="@((args) => SetGuides(args))"
+                               checked="@(Options.Guides)" />
+                        <label class="form-check-label" for="guides">guides</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="center"
+                               @onchange="@((args) => SetCenter(args))"
+                               checked="@(Options.Center)" />
+                        <label class="form-check-label" for="center">center</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="highlight"
+                               @onchange="@((args) => SetHighlight(args))"
+                               checked="@(Options.Highlight)" />
+                        <label class="form-check-label" for="highlight">highlight</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="background"
+                               @onchange="@((args) => SetBackground(args))"
+                               checked="@(Options.Background)" />
+                        <label class="form-check-label" for="background">background</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="autoCrop"
+                               @onchange="@((args) => SetAutoCrop(args))"
+                               checked="@(Options.AutoCrop)" />
+                        <label class="form-check-label" for="autoCrop">autoCrop</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="movable"
+                               @onchange="@((args) => SetMovable(args))"
+                               checked="@(Options.Movable)" />
+                        <label class="form-check-label" for="movable">movable</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="rotatable"
+                               @onchange="@((args) => SetRotatable(args))"
+                               checked="@(Options.Rotatable)" />
+                        <label class="form-check-label" for="rotatable">rotatable</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="scalable"
+                               @onchange="@((args) => SetScalable(args))"
+                               checked="@(Options.Scalable)" />
+                        <label class="form-check-label" for="scalable">scalable</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="zoomable"
+                               @onchange="@((args) => SetZoomable(args))"
+                               checked="@(Options.Zoomable)" />
+                        <label class="form-check-label" for="zoomable">zoomable</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="zoomOnTouch"
+                               @onchange="@((args) => SetZoomOnTouch(args))"
+                               checked="@(Options.ZoomOnTouch)" />
+                        <label class="form-check-label" for="zoomOnTouch">zoomOnTouch</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="zoomOnWheel"
+                               @onchange="@((args) => SetZoomOnWheel(args))"
+                               checked="@(Options.ZoomOnWheel)" />
+                        <label class="form-check-label" for="zoomOnWheel">zoomOnWheel</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cropBoxMovable"
+                               @onchange="@((args) => SetCropBoxMovable(args))"
+                               checked="@(Options.CropBoxMovable)" />
+                        <label class="form-check-label" for="cropBoxMovable">cropBoxMovable</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="cropBoxResizable"
+                               @onchange="@((args) => SetCropBoxResizable(args))"
+                               checked="@(Options.CropBoxResizable)" />
+                        <label class="form-check-label" for="cropBoxResizable">cropBoxResizable</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="toggleDragModeOnDblclick"
+                               @onchange="@((args) => SetToggleDragModeOnDblclick(args))"
+                               checked="@(Options.ToggleDragModeOnDblclick)" />
+                        <label class="form-check-label" for="toggleDragModeOnDblclick">toggleDragModeOnDblclick</label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group d-flex flex-nowrap" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="aspectRatio" id="ratio169" @onclick="@(() => SetAspectRatio(16.0 / 9.0))"
+                           autocomplete="off" checked=@(Options.AspectRatio == 16.0/9.0) />
+                    <label class="btn btn-outline-primary" for="ratio169">16:9</label>
+                    <input type="radio" class="btn-check" name="aspectRatio" id="ratio43" @onclick="@(() => SetAspectRatio(4.0 / 3.0))"
+                           autocomplete="off" checked=@(Options.AspectRatio == 4.0/3.0) />
+                    <label class="btn btn-outline-primary" for="ratio43">4:3</label>
+                    <input type="radio" class="btn-check" name="aspectRatio" id="ratio11" @onclick="@(() => SetAspectRatio(1.0 / 1.0))"
+                           autocomplete="off" checked=@(Options.AspectRatio == 1.0/1.0) />
+                    <label class="btn btn-outline-primary" for="ratio11">1:1</label>
+                    <input type="radio" class="btn-check" name="aspectRatio" id="ratio23" @onclick="@(() => SetAspectRatio(2.0 / 3.0))"
+                           autocomplete="off" checked=@(Options.AspectRatio == 2.0/3.0) />
+                    <label class="btn btn-outline-primary" for="ratio23">2:3</label>
+                    <input type="radio" class="btn-check" name="aspectRatio" id="ratioFree" @onclick="@(() => SetAspectRatio(double.NaN))"
+                           autocomplete="off" checked=@(double.IsNaN(Options.AspectRatio) == true) />
+                    <label class="btn btn-outline-primary" for="ratioFree">Free</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="btn-group d-flex flex-nowrap" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="viewMode" id="mode0" @onclick="@(() => SetViewMode(ViewMode.NoRestriction))"
+                           autocomplete="off" checked=@(Options.ViewMode == ViewMode.NoRestriction) />
+                    <label class="btn btn-outline-primary" for="mode0">VM0</label>
+                    <input type="radio" class="btn-check" name="viewMode" id="mode1" @onclick="@(() => SetViewMode(ViewMode.RestrictCrop))"
+                           autocomplete="off" checked=@(Options.ViewMode == ViewMode.RestrictCrop) />
+                    <label class="btn btn-outline-primary" for="mode1">VM1</label>
+                    <input type="radio" class="btn-check" name="viewMode" id="mode2" @onclick="@(() => SetViewMode(ViewMode.RestrictFit))"
+                           autocomplete="off" checked=@(Options.ViewMode == ViewMode.RestrictFit) />
+                    <label class="btn btn-outline-primary" for="mode2">VM2</label>
+                    <input type="radio" class="btn-check" name="viewMode" id="mode3" @onclick="@(() => SetViewMode(ViewMode.RestrictFillFit))"
+                           autocomplete="off" checked=@(Options.ViewMode == ViewMode.RestrictFillFit) />
+                    <label class="btn btn-outline-primary" for="mode3">VM3</label>
+                </div>
+            </div>
+            <div class="row">
+                <img @ref="imgPrev" id="imagePrev" style="overflow: hidden" width="200" height="200" />
+                @*<canvas id="canvas" width="200" height="200"></canvas><br />*@
+            </div>
+            @*</div>*@
+        </div>
+    </div>
+
+
+    <div id="result"></div>
+</div>
+<style>
+    .docs-demo {
+        margin-bottom: 1rem;
+        overflow: hidden;
+        padding: 2px;
+    }
+
+    .img-container,
+    .img-preview {
+        background-color: #f7f7f7;
+        text-align: center;
+        width: 100%;
+    }
+
+    .img-container {
+        max-height: 497px;
+        min-height: 200px;
+    }
+
+        /*@@media (min-width: 768px) {
+                                                                                                                                                  .img-container {
+                                                                                                                                                    min-height: 497px;
+                                                                                                                                                  }
+                                                                                                                                                }
+                                                                                                                                                */
+        .img-container > img {
+            max-width: 100%;
+        }
+
+    .docs-preview {
+        margin-right: -1rem;
+    }
+
+    .img-preview {
+        float: left;
+        margin-bottom: 0.5rem;
+        margin-right: 0.5rem;
+        overflow: hidden;
+    }
+
+        .img-preview > img {
+            max-width: 100%;
+        }
+
+    .preview-lg {
+        height: 9rem;
+        width: 16rem;
+    }
+
+    .preview-md {
+        height: 4.5rem;
+        width: 8rem;
+    }
+
+    .preview-sm {
+        height: 2.25rem;
+        width: 4rem;
+    }
+
+    .preview-xs {
+        height: 1.125rem;
+        margin-right: 0;
+        width: 2rem;
+    }
+
+</style>
+@*<ul class="dropdown-menu" role="menu" aria-labelledby="toggleOptions" style="">
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="responsive" type="checkbox" name="responsive" checked="">
+    <label class="form-check-label" for="responsive">responsive</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="restore" type="checkbox" name="restore" checked="">
+    <label class="form-check-label" for="restore">restore</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="checkCrossOrigin" type="checkbox" name="checkCrossOrigin" checked="">
+    <label class="form-check-label" for="checkCrossOrigin">checkCrossOrigin</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="checkOrientation" type="checkbox" name="checkOrientation" checked="">
+    <label class="form-check-label" for="checkOrientation">checkOrientation</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="modal" type="checkbox" name="modal" checked="">
+    <label class="form-check-label" for="modal">modal</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="guides" type="checkbox" name="guides" checked="">
+    <label class="form-check-label" for="guides">guides</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="center" type="checkbox" name="center" checked="">
+    <label class="form-check-label" for="center">center</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="highlight" type="checkbox" name="highlight" checked="">
+    <label class="form-check-label" for="highlight">highlight</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="background" type="checkbox" name="background" checked="">
+    <label class="form-check-label" for="background">background</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="autoCrop" type="checkbox" name="autoCrop" checked="">
+    <label class="form-check-label" for="autoCrop">autoCrop</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="movable" type="checkbox" name="movable" checked="">
+    <label class="form-check-label" for="movable">movable</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="rotatable" type="checkbox" name="rotatable" checked="">
+    <label class="form-check-label" for="rotatable">rotatable</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="scalable" type="checkbox" name="scalable" checked="">
+    <label class="form-check-label" for="scalable">scalable</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="zoomable" type="checkbox" name="zoomable" checked="">
+    <label class="form-check-label" for="zoomable">zoomable</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="zoomOnTouch" type="checkbox" name="zoomOnTouch" checked="">
+    <label class="form-check-label" for="zoomOnTouch">zoomOnTouch</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="zoomOnWheel" type="checkbox" name="zoomOnWheel" checked="">
+    <label class="form-check-label" for="zoomOnWheel">zoomOnWheel</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="cropBoxMovable" type="checkbox" name="cropBoxMovable" checked="">
+    <label class="form-check-label" for="cropBoxMovable">cropBoxMovable</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="cropBoxResizable" type="checkbox" name="cropBoxResizable" checked="">
+    <label class="form-check-label" for="cropBoxResizable">cropBoxResizable</label>
+    </div>
+    </li>
+    <li class="dropdown-item">
+    <div class="form-check">
+    <input class="form-check-input" id="toggleDragModeOnDblclick" type="checkbox" name="toggleDragModeOnDblclick" checked="">
+    <label class="form-check-label" for="toggleDragModeOnDblclick">toggleDragModeOnDblclick</label>
+    </div>
+    </li>
+    </ul>*@
