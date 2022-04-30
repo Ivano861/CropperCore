@@ -75,56 +75,56 @@ namespace CropperCore.Services
         #region Events active/disactive
         public async Task AddOnReady()
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.AddReady", DotNetHelper);
+            await JsRuntime.InvokeVoidAsync("CropCore.addReady", DotNetHelper);
         }
         public async Task RemoveOnReady(/*Func<Task> action*/)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.RemoveReady");
+            await JsRuntime.InvokeVoidAsync("CropCore.removeReady");
         }
 
         public async Task AddOnCropStart()
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.AddCropStart", DotNetHelper);
+            await JsRuntime.InvokeVoidAsync("CropCore.addCropStart", DotNetHelper);
         }
         public async Task RemoveOnCropStart(/*Func<Task> action*/)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.RemoveCropStart");
+            await JsRuntime.InvokeVoidAsync("CropCore.removeCropStart");
         }
 
         public async Task AddOnCropMove()
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.AddCropMove", DotNetHelper);
+            await JsRuntime.InvokeVoidAsync("CropCore.addCropMove", DotNetHelper);
         }
         public async Task RemoveOnCropMove(/*Func<Task> action*/)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.RemoveCropMove");
+            await JsRuntime.InvokeVoidAsync("CropCore.removeCropMove");
         }
 
         public async Task AddOnCropEnd()
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.AddCropEnd", DotNetHelper);
+            await JsRuntime.InvokeVoidAsync("CropCore.addCropEnd", DotNetHelper);
         }
         public async Task RemoveOnCropEnd(/*Func<Task> action*/)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.RemoveCropEnd");
+            await JsRuntime.InvokeVoidAsync("CropCore.removeCropEnd");
         }
 
         public async Task AddOnCrop()
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.AddCrop", DotNetHelper);
+            await JsRuntime.InvokeVoidAsync("CropCore.addCrop", DotNetHelper);
         }
         public async Task RemoveOnCrop(/*Func<Task> action*/)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.RemoveCrop");
+            await JsRuntime.InvokeVoidAsync("CropCore.removeCrop");
         }
 
         public async Task AddOnZoom()
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.AddZoom", DotNetHelper);
+            await JsRuntime.InvokeVoidAsync("CropCore.addZoom", DotNetHelper);
         }
         public async Task RemoveOnZoom(/*Func<Task> action*/)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.RemoveZoom");
+            await JsRuntime.InvokeVoidAsync("CropCore.removeZoom");
         }
         #endregion
 
@@ -139,8 +139,16 @@ namespace CropperCore.Services
         /// </remarks>
         public async Task Create(string id, CropperOtions? options = null)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.CreateCrop", id, options, DotNetHelper, Events);
-            IsCreate = true;
+            try
+            {
+                await JsRuntime.InvokeVoidAsync("CropCore.createCrop", id, options, DotNetHelper, Events);
+                IsCreate = true;
+            }
+            catch (JSException ex)
+            {
+                string message = ex.Message;
+                throw;
+            }
         }
 
         /// <summary>
@@ -153,15 +161,23 @@ namespace CropperCore.Services
         /// </remarks>
         public async Task Create(ElementReference el, CropperOtions? options = null)
         {
-            await JsRuntime.InvokeVoidAsync("CropCore.CreateCrop", el, options, DotNetHelper, Events);
-            IsCreate = true;
+            try
+            {
+                await JsRuntime.InvokeVoidAsync("CropCore.createCrop", el, options, DotNetHelper, Events);
+                IsCreate = true;
+            }
+            catch (JSException ex)
+            {
+                string message = ex.Message;
+                throw;
+            }
         }
 
         public async Task ConfirmCrop()
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.ConfirmCrop");
+                await JsRuntime.InvokeVoidAsync("CropCore.confirmCrop");
             }
             catch (JSException ex)
             {
@@ -174,7 +190,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Crop");
+                await JsRuntime.InvokeVoidAsync("CropCore.crop");
             }
             catch (JSException ex)
             {
@@ -187,7 +203,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Reset");
+                await JsRuntime.InvokeVoidAsync("CropCore.reset");
             }
             catch (JSException ex)
             {
@@ -199,7 +215,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Clear");
+                await JsRuntime.InvokeVoidAsync("CropCore.clear");
             }
             catch (JSException ex)
             {
@@ -212,7 +228,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Enable");
+                await JsRuntime.InvokeVoidAsync("CropCore.enable");
             }
             catch (JSException ex)
             {
@@ -224,7 +240,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Disable");
+                await JsRuntime.InvokeVoidAsync("CropCore.disable");
             }
             catch (JSException ex)
             {
@@ -236,7 +252,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Destroy");
+                await JsRuntime.InvokeVoidAsync("CropCore.destroy");
                 IsCreate = false;
             }
             catch (JSException ex)
@@ -249,7 +265,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Move", offsetX, offsetY);
+                await JsRuntime.InvokeVoidAsync("CropCore.move", offsetX, offsetY);
             }
             catch (JSException ex)
             {
@@ -261,7 +277,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.MoveTo", x, y);
+                await JsRuntime.InvokeVoidAsync("CropCore.moveTo", x, y);
             }
             catch (JSException ex)
             {
@@ -273,7 +289,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Zoom", ratio);
+                await JsRuntime.InvokeVoidAsync("CropCore.zoom", ratio);
             }
             catch (JSException ex)
             {
@@ -285,7 +301,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.ZoomTo", ratio, schema);
+                await JsRuntime.InvokeVoidAsync("CropCore.zoomTo", ratio, schema);
             }
             catch (JSException ex)
             {
@@ -297,7 +313,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Rotate", degree);
+                await JsRuntime.InvokeVoidAsync("CropCore.rotate", degree);
             }
             catch (JSException ex)
             {
@@ -309,7 +325,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.RotateTo", degree);
+                await JsRuntime.InvokeVoidAsync("CropCore.rotateTo", degree);
             }
             catch (JSException ex)
             {
@@ -321,7 +337,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.Scale", scaleX, scaleY);
+                await JsRuntime.InvokeVoidAsync("CropCore.scale", scaleX, scaleY);
             }
             catch (JSException ex)
             {
@@ -333,7 +349,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.ScaleX", scaleX);
+                await JsRuntime.InvokeVoidAsync("CropCore.scaleX", scaleX);
             }
             catch (JSException ex)
             {
@@ -345,7 +361,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.ScaleY", scaleY);
+                await JsRuntime.InvokeVoidAsync("CropCore.scaleY", scaleY);
             }
             catch (JSException ex)
             {
@@ -357,7 +373,7 @@ namespace CropperCore.Services
         {
             try
             {
-                return await JsRuntime.InvokeAsync<CropperData>("CropCore.GetData", rounded);
+                return await JsRuntime.InvokeAsync<CropperData>("CropCore.getData", rounded);
             }
             catch (JSException ex)
             {
@@ -369,7 +385,7 @@ namespace CropperCore.Services
         {
             try
             {
-                return await JsRuntime.InvokeAsync<CropperData>("CropCore.SetData", data);
+                return await JsRuntime.InvokeAsync<CropperData>("CropCore.setData", data);
             }
             catch (JSException ex)
             {
@@ -382,7 +398,7 @@ namespace CropperCore.Services
         {
             try
             {
-                return await JsRuntime.InvokeAsync<CropperContainerData>("CropCore.GetContainerData");
+                return await JsRuntime.InvokeAsync<CropperContainerData>("CropCore.getContainerData");
             }
             catch (JSException ex)
             {
@@ -394,7 +410,7 @@ namespace CropperCore.Services
         {
             try
             {
-                return await JsRuntime.InvokeAsync<CropperImageData>("CropCore.GetImageData");
+                return await JsRuntime.InvokeAsync<CropperImageData>("CropCore.getImageData");
             }
             catch (JSException ex)
             {
@@ -406,7 +422,7 @@ namespace CropperCore.Services
         {
             try
             {
-                return await JsRuntime.InvokeAsync<CropperGetCanvasData>("CropCore.GetCanvasData");
+                return await JsRuntime.InvokeAsync<CropperGetCanvasData>("CropCore.getCanvasData");
             }
             catch (JSException ex)
             {
@@ -418,7 +434,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.SetCanvasData", data);
+                await JsRuntime.InvokeVoidAsync("CropCore.setCanvasData", data);
             }
             catch (JSException ex)
             {
@@ -430,7 +446,7 @@ namespace CropperCore.Services
         {
             try
             {
-                return await JsRuntime.InvokeAsync<CropperCropBoxData>("CropCore.GetCropBoxData");
+                return await JsRuntime.InvokeAsync<CropperCropBoxData>("CropCore.getCropBoxData");
             }
             catch (JSException ex)
             {
@@ -442,7 +458,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.SetCropBoxData", data);
+                await JsRuntime.InvokeVoidAsync("CropCore.setCropBoxData", data);
             }
             catch (JSException ex)
             {
@@ -455,7 +471,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.GetCroppedCanvas", dest, options);
+                await JsRuntime.InvokeVoidAsync("CropCore.getCroppedCanvas", dest, options);
             }
             catch (JSException ex)
             {
@@ -467,7 +483,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.GetCroppedCanvas", idDest, options);
+                await JsRuntime.InvokeVoidAsync("CropCore.getCroppedCanvas", idDest, options);
             }
             catch (JSException ex)
             {
@@ -479,7 +495,7 @@ namespace CropperCore.Services
         {
             try
             {
-                var t = await JsRuntime.InvokeAsync<object>("CropCore.GetCroppedCanvasHTML", options);
+                var t = await JsRuntime.InvokeAsync<object>("CropCore.getCroppedCanvasHTML", options);
             }
             catch (JSException ex)
             {
@@ -492,7 +508,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.SetAspectRatio", (double.IsFinite(aspectRatio) ? aspectRatio : "NaN"));
+                await JsRuntime.InvokeVoidAsync("CropCore.setAspectRatio", (double.IsFinite(aspectRatio) ? aspectRatio : "NaN"));
             }
             catch (JSException ex)
             {
@@ -504,7 +520,7 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.SetDragMode", (Enum.GetName(typeof(DragMode), mode) ?? "").ToLower());
+                await JsRuntime.InvokeVoidAsync("CropCore.setDragMode", (Enum.GetName(typeof(DragMode), mode) ?? "").ToLower());
             }
             catch (JSException ex)
             {

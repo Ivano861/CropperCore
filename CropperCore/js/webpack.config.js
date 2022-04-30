@@ -16,7 +16,7 @@ module.exports = {
     //experiments: {
     //    outputModule: true
     //},
-    //entry: './src/index.js',
+    entry: './src/cropper_wrp.js',
     output: {
         path: path.resolve(__dirname, '../wwwroot/js'),
         filename: "crop_core.js",

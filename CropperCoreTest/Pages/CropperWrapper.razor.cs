@@ -22,6 +22,21 @@ namespace CropperCoreTest.Pages
 
         string jsonIO { get; set; }
 
+        protected override void OnInitialized()
+        {
+            imgUrl = "Bridge.jpg";
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (firstRender)
+            {
+                //StateHasChanged();
+
+                await CreateCrop();
+            }
+        }
+
         private CropperOtions Options { get; set; } = new CropperOtions
         {
             AutoCrop = true,
@@ -234,14 +249,6 @@ namespace CropperCoreTest.Pages
         {
             try
             {
-                //Options = new CropperOtions
-                //{
-                //    AutoCrop = true,
-                //    ViewMode = CropperCore.Enumerates.ViewMode.RestrictCrop,
-                //    AspectRatio = 4.0 / 3.0,
-                //    Preview = ".img-preview"
-                //};
-
                 CropperService.Events.Ready -= OnReady;
                 CropperService.Events.Ready += OnReady;
                 CropperService.Events.CropStart -= OnCropStart;

@@ -1,17 +1,35 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+<div>
+    <nav class="navbar fixed-top navbar-expand navbar-dark bg-dark container-fluid">
+        <div class="navbar-brand">
+            <span class="navbar-text">Cropperjs to Core</span>
+        </div>
+        <div class="navbar-nav md-auto">
+            <NavLink href="cropperwrapper" class="nav-item nav-link">Wrapper Cropper</NavLink>
         </div>
 
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
+        <div class="navbar-nav mx-auto">
+            @*<NavLink href="" Match="NavLinkMatch.All" class="nav-item nav-link"><span class="oi oi-home icon-navbar" title="Home" aria-hidden="true"></span>Home</NavLink>*@
+            <NavLink href="" class="nav-item nav-link"><span class="oi oi-home icon-navbar" style="font-size: 16px;" aria-hidden="true"></span>Home</NavLink>
+        </div>
+
+        <div class="navbar-nav ms-auto">
+            <span class="navbar-text">
+                Hello
+            </span>
+        </div>
+    </nav>
+
+    <div class="top-row px-4">
+        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+    </div>
+
+    <div class="app-container bg-light">
+        <div class="p-4">
+            <div class="container-fluid">
+                @Body
+            </div>
+        </div>
+    </div>
 </div>
