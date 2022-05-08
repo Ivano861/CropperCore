@@ -10,6 +10,6 @@ namespace CropperCore.Services
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddBlazorCropper(this IServiceCollection services)
-            => services.AddScoped<CropperService>();
+            => services.AddTransient<CropperService>();
     }
 }

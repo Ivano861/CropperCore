@@ -10,19 +10,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace CropperCore.Services
 {
-    public class CropperService : IDisposable
+    public sealed class CropperService : IDisposable, IAsyncDisposable
     {
         private DotNetObjectReference<CropperService>? DotNetHelper { get; set; }
 
         #region Properties
         private IJSRuntime JsRuntime { get; set; }
 
-        public CropperEvents Events { get; private set; }
+        //public CropperEvents Events { get; private set; }
 
-        public bool IsCreate { get; private set; }
+        private bool IsCreate { get; set; }
         #endregion
 
         #region Constructors
@@ -35,7 +36,76 @@ namespace CropperCore.Services
             IsCreate = false;
             JsRuntime = jsRuntime;
             DotNetHelper = DotNetObjectReference.Create(this);
-            Events = new CropperEvents();
+        }
+        #endregion
+
+        #region Events handler definitions
+        public delegate Task EventHandlerAsync(object sender, EventArgs e);
+        public delegate Task EventCropStartHandlerAsync(object sender, EventCropChangeArgs e);
+        public delegate Task EventCropMoveHandlerAsync(object sender, EventCropChangeArgs e);
+        public delegate Task EventCropEndHandlerAsync(object sender, EventCropChangeArgs e);
+        public delegate Task EventCropHandlerAsync(object sender, EventCropArgs e);
+        public delegate bool EventZoomHandler(object sender, EventZoomChangeArgs e);
+        #endregion
+
+        #region Events definitions
+        public event EventHandlerAsync? ReadyEvent;
+        public event EventCropStartHandlerAsync? CropStartEvent;
+        public event EventCropMoveHandlerAsync? CropMoveEvent;
+        public event EventCropEndHandlerAsync? CropEndEvent;
+        public event EventCropHandlerAsync? CropEvent;
+        public event EventZoomHandler? ZoomEvent;
+        #endregion
+
+        #region Events
+        private async Task OnReady(EventArgs args)
+        {
+            if (ReadyEvent is not null)
+            {
+                await ReadyEvent.Invoke(this, args);
+            }
+        }
+
+        private async Task OnCropStart(EventCropChangeArgs args)
+        {
+            if (CropStartEvent is not null)
+            {
+                await CropStartEvent.Invoke(this, args);
+            }
+        }
+
+        private async Task OnCropMove(EventCropChangeArgs args)
+        {
+            if (CropMoveEvent is not null)
+            {
+                await CropMoveEvent.Invoke(this, args);
+            }
+        }
+
+        private async Task OnCropEnd(EventCropChangeArgs args)
+        {
+            if (CropEndEvent is not null)
+            {
+                await CropEndEvent.Invoke(this, args);
+            }
+        }
+
+        private async Task OnCrop(EventCropArgs args)
+        {
+            if (CropEvent is not null)
+            {
+                await CropEvent.Invoke(this, args);
+            }
+        }
+
+        private bool OnZoom(EventZoomChangeArgs args)
+        {
+            if (ZoomEvent is not null)
+            {
+                return ZoomEvent.Invoke(this, args);
+            }
+
+            return true;
         }
         #endregion
 
@@ -43,32 +113,32 @@ namespace CropperCore.Services
         [JSInvokable]
         public async Task OnReadyDelegate()
         {
-            await Events.OnReady(new EventArgs());
+            await OnReady(new EventArgs());
         }
         [JSInvokable]
         public async Task OnCropStartDelegate(EventCropChangeArgs args)
         {
-            await Events.OnCropStart(args);
+            await OnCropStart(args);
         }
         [JSInvokable]
         public async Task OnCropMoveDelegate(EventCropChangeArgs args)
         {
-            await Events.OnCropMove(args);
+            await OnCropMove(args);
         }
         [JSInvokable]
         public async Task OnCropEndDelegate(EventCropChangeArgs args)
         {
-            await Events.OnCropEnd(args);
+            await OnCropEnd(args);
         }
         [JSInvokable]
         public async Task OnCropDelegate(EventCropArgs args)
         {
-            await Events.OnCrop(args);
+            await OnCrop(args);
         }
         [JSInvokable]
-        public async Task OnZoomDelegate(EventZoomChangeArgs args)
+        public bool OnZoomDelegate(EventZoomChangeArgs args)
         {
-            await Events.OnZoom(args);
+            return OnZoom(args);
         }
         #endregion
 
@@ -77,7 +147,7 @@ namespace CropperCore.Services
         {
             await JsRuntime.InvokeVoidAsync("CropCore.addReady", DotNetHelper);
         }
-        public async Task RemoveOnReady(/*Func<Task> action*/)
+        public async Task RemoveOnReady()
         {
             await JsRuntime.InvokeVoidAsync("CropCore.removeReady");
         }
@@ -86,7 +156,7 @@ namespace CropperCore.Services
         {
             await JsRuntime.InvokeVoidAsync("CropCore.addCropStart", DotNetHelper);
         }
-        public async Task RemoveOnCropStart(/*Func<Task> action*/)
+        public async Task RemoveOnCropStart()
         {
             await JsRuntime.InvokeVoidAsync("CropCore.removeCropStart");
         }
@@ -95,7 +165,7 @@ namespace CropperCore.Services
         {
             await JsRuntime.InvokeVoidAsync("CropCore.addCropMove", DotNetHelper);
         }
-        public async Task RemoveOnCropMove(/*Func<Task> action*/)
+        public async Task RemoveOnCropMove()
         {
             await JsRuntime.InvokeVoidAsync("CropCore.removeCropMove");
         }
@@ -104,7 +174,7 @@ namespace CropperCore.Services
         {
             await JsRuntime.InvokeVoidAsync("CropCore.addCropEnd", DotNetHelper);
         }
-        public async Task RemoveOnCropEnd(/*Func<Task> action*/)
+        public async Task RemoveOnCropEnd()
         {
             await JsRuntime.InvokeVoidAsync("CropCore.removeCropEnd");
         }
@@ -113,7 +183,7 @@ namespace CropperCore.Services
         {
             await JsRuntime.InvokeVoidAsync("CropCore.addCrop", DotNetHelper);
         }
-        public async Task RemoveOnCrop(/*Func<Task> action*/)
+        public async Task RemoveOnCrop()
         {
             await JsRuntime.InvokeVoidAsync("CropCore.removeCrop");
         }
@@ -122,7 +192,7 @@ namespace CropperCore.Services
         {
             await JsRuntime.InvokeVoidAsync("CropCore.addZoom", DotNetHelper);
         }
-        public async Task RemoveOnZoom(/*Func<Task> action*/)
+        public async Task RemoveOnZoom()
         {
             await JsRuntime.InvokeVoidAsync("CropCore.removeZoom");
         }
@@ -141,13 +211,20 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.createCrop", id, options, DotNetHelper, Events);
+                await JsRuntime.InvokeVoidAsync("CropCore.createCrop", id, options, DotNetHelper, new EventsInfo
+                {
+                    HasReady = ReadyEvent != null,
+                    HasCropstart = CropStartEvent != null,
+                    HasCropmove = CropMoveEvent != null,
+                    HasCropend = CropEndEvent != null,
+                    HasCrop = CropEvent != null,
+                    HasZoom = ZoomEvent != null
+                });
                 IsCreate = true;
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -163,13 +240,20 @@ namespace CropperCore.Services
         {
             try
             {
-                await JsRuntime.InvokeVoidAsync("CropCore.createCrop", el, options, DotNetHelper, Events);
+                await JsRuntime.InvokeVoidAsync("CropCore.createCrop", el, options, DotNetHelper, new EventsInfo
+                {
+                    HasReady = ReadyEvent != null,
+                    HasCropstart = CropStartEvent != null,
+                    HasCropmove = CropMoveEvent != null,
+                    HasCropend = CropEndEvent != null,
+                    HasCrop = CropEvent != null,
+                    HasZoom = ZoomEvent != null
+                });
                 IsCreate = true;
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -181,8 +265,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -194,8 +277,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -207,8 +289,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Clear()
@@ -219,8 +300,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -232,8 +312,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Disable()
@@ -244,8 +323,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Destroy()
@@ -257,8 +335,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Move(double offsetX, double? offsetY = null)
@@ -269,8 +346,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task MoveTo(double x, double? y = null)
@@ -281,8 +357,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Zoom(double ratio)
@@ -293,8 +368,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task ZoomTo(double ratio, CropperZoomSchema? schema = null)
@@ -305,8 +379,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Rotate(double degree)
@@ -317,8 +390,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task RotateTo(double degree)
@@ -329,8 +401,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task Scale(double scaleX, double? scaleY = null)
@@ -341,8 +412,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task ScaleX(double scaleX)
@@ -353,8 +423,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task ScaleY(double scaleY)
@@ -365,8 +434,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task<CropperData> GetData(bool? rounded = false)
@@ -377,8 +445,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task<CropperData> SetData(CropperData data)
@@ -389,8 +456,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -402,8 +468,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task<CropperImageData> GetImageData()
@@ -414,8 +479,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task<CropperGetCanvasData> GetCanvasData()
@@ -426,8 +490,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task SetCanvasData(CropperSetCanvasData data)
@@ -438,8 +501,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task<CropperCropBoxData> GetCropBoxData()
@@ -450,8 +512,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task SetCropBoxData(CropperCropBoxData data)
@@ -462,8 +523,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -475,8 +535,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task GetCroppedCanvas(string idDest, CropperCroppedCanvas options)
@@ -487,8 +546,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task GetCroppedCanvas(CropperCroppedCanvas options)
@@ -499,8 +557,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
 
@@ -512,8 +569,7 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         public async Task SetDragMode(DragMode mode)
@@ -524,17 +580,62 @@ namespace CropperCore.Services
             }
             catch (JSException ex)
             {
-                string message = ex.Message;
-                throw;
+                throw ex;
             }
         }
         #endregion
 
         public void Dispose()
         {
-            Events?.Dispose();
+            if (ReadyEvent is not null)
+            {
+                Delegate[] clientList = ReadyEvent.GetInvocationList();
+                foreach (var d in clientList)
+                    ReadyEvent -= (d as EventHandlerAsync);
+            }
+            if (CropStartEvent is not null)
+            {
+                Delegate[] clientList = CropStartEvent.GetInvocationList();
+                foreach (var d in clientList)
+                    CropStartEvent -= (d as EventCropStartHandlerAsync);
+            }
+            if (CropMoveEvent is not null)
+            {
+                Delegate[] clientList = CropMoveEvent.GetInvocationList();
+                foreach (var d in clientList)
+                    CropMoveEvent -= (d as EventCropMoveHandlerAsync);
+            }
+            if (CropEndEvent is not null)
+            {
+                Delegate[] clientList = CropEndEvent.GetInvocationList();
+                foreach (var d in clientList)
+                    CropEndEvent -= (d as EventCropEndHandlerAsync);
+            }
+            if (CropEvent is not null)
+            {
+                Delegate[] clientList = CropEvent.GetInvocationList();
+                foreach (var d in clientList)
+                    CropEvent -= (d as EventCropHandlerAsync);
+            }
+            if (ZoomEvent is not null)
+            {
+                Delegate[] clientList = ZoomEvent.GetInvocationList();
+                foreach (var d in clientList)
+                    ZoomEvent -= (d as EventZoomHandler);
+            }
+
             DotNetHelper?.Dispose();
             Console.WriteLine($"{nameof(CropperService)}.Dispose()");
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await RemoveOnReady();
+            await RemoveOnCropStart();
+            await RemoveOnCropMove();
+            await RemoveOnCropEnd();
+            await RemoveOnCrop();
+            await RemoveOnZoom();
         }
     }
 }

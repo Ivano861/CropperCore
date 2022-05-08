@@ -7,34 +7,51 @@ using Microsoft.AspNetCore.Components.Forms;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace CropperCoreTest.Pages
 {
-    public partial class CropperWrapper //: IAsyncDisposable
+    public partial class CropperWrapper
     {
         [Inject]
-        public CropperService CropperService { get; set; }
+        private CropperService CropperService { get; set; } = null!;
 
-        ElementReference imgRef;
-        ElementReference imgPrev;
+        [Inject]
+        private IJSRuntime JS { get; set; } = null!;
 
-        string imgUrl;
+        private ElementReference imgRef;
+        private ElementReference imgPrev;
 
-        string jsonIO { get; set; }
+        private string imgUrl = null!;
 
-        protected override void OnInitialized()
+        private string JsonIO { get; set; } = null!;
+
+        private string Error { get; set; } = "";
+
+        private bool IsHidden { get { return string.IsNullOrEmpty(Error); } }
+
+        private void ResetError() => Error = "";
+
+       protected override void OnInitialized()
         {
             imgUrl = "Bridge.jpg";
+
+            base.OnInitialized();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                //StateHasChanged();
-
                 await CreateCrop();
+
+                await JS.InvokeVoidAsync("addTooltips");
+
+                StateHasChanged();
             }
+
+            base.OnAfterRender(firstRender);
         }
 
         private CropperOtions Options { get; set; } = new CropperOtions
@@ -47,56 +64,40 @@ namespace CropperCoreTest.Pages
         private async Task OnReady(object sender, EventArgs args)
         {
             await Task.Delay(100);
-            int a = 1;
         }
 
         private async Task OnCropStart(object sender, EventCropChangeArgs args)
         {
             await Task.Delay(100);
-            int a = 1;
         }
 
         private async Task OnCropMove(object sender, EventCropChangeArgs args)
         {
             await Task.Delay(100);
-            int a = 1;
         }
 
         private async Task OnCropEnd(object sender, EventCropChangeArgs args)
         {
             await Task.Delay(100);
-            int a = 1;
         }
 
         private async Task OnCrop(object sender, EventCropArgs args)
         {
             await Task.Delay(100);
-            int a = 1;
         }
 
-        private async Task OnZoom(object sender, EventZoomChangeArgs args)
+        private bool OnZoom(object sender, EventZoomChangeArgs args)
         {
-            await Task.Delay(100);
-            int a = 1;
+            Task.Delay(100);
 
-            //        layerX: 122
-            //layerY: 187
-            //metaKey: false
-            //movementX: 0
-            //movementY: 0
-            //wheelDelta: 120
-            //wheelDeltaX: 0
-            //wheelDeltaY: 120
-            //which: 0
-            //x: 172
-            //y: 302
+            return false;
         }
 
         public async Task SetResponsive(ChangeEventArgs args)
         {
             if (args is null) return;
 
-            Options.Responsive = (bool)args.Value;
+            Options.Responsive = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -104,7 +105,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Restore = (bool)args.Value;
+            Options.Restore = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -112,7 +113,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.CheckCrossOrigin = (bool)args.Value;
+            Options.CheckCrossOrigin = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -120,7 +121,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.CheckOrientation = (bool)args.Value;
+            Options.CheckOrientation = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -128,7 +129,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Modal = (bool)args.Value;
+            Options.Modal = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -136,7 +137,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Guides = (bool)args.Value;
+            Options.Guides = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -144,7 +145,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Center = (bool)args.Value;
+            Options.Center = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -152,7 +153,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Highlight = (bool)args.Value;
+            Options.Highlight = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -160,7 +161,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Background = (bool)args.Value;
+            Options.Background = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -168,7 +169,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.AutoCrop = (bool)args.Value;
+            Options.AutoCrop = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -176,7 +177,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Movable = (bool)args.Value;
+            Options.Movable = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -184,7 +185,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Rotatable = (bool)args.Value;
+            Options.Rotatable = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -192,7 +193,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Scalable = (bool)args.Value;
+            Options.Scalable = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -200,7 +201,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.Zoomable = (bool)args.Value;
+            Options.Zoomable = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -208,7 +209,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.ZoomOnTouch = (bool)args.Value;
+            Options.ZoomOnTouch = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -216,7 +217,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.ZoomOnWheel = (bool)args.Value;
+            Options.ZoomOnWheel = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -224,7 +225,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.CropBoxMovable = (bool)args.Value;
+            Options.CropBoxMovable = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -232,7 +233,7 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.CropBoxResizable = (bool)args.Value;
+            Options.CropBoxResizable = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
@@ -240,33 +241,35 @@ namespace CropperCoreTest.Pages
         {
             if (args is null) return;
 
-            Options.ToggleDragModeOnDblclick = (bool)args.Value;
+            Options.ToggleDragModeOnDblclick = (bool?)args.Value ?? false;
 
             await CreateCrop();
         }
 
         private async Task CreateCrop()
         {
+            ResetError();
+
             try
             {
-                CropperService.Events.Ready -= OnReady;
-                CropperService.Events.Ready += OnReady;
-                CropperService.Events.CropStart -= OnCropStart;
-                CropperService.Events.CropStart += OnCropStart;
-                CropperService.Events.CropMove -= OnCropMove;
-                CropperService.Events.CropMove += OnCropMove;
-                CropperService.Events.CropEnd -= OnCropEnd;
-                CropperService.Events.CropEnd += OnCropEnd;
-                CropperService.Events.Crop -= OnCrop;
-                CropperService.Events.Crop += OnCrop;
-                CropperService.Events.Zoom -= OnZoom;
-                CropperService.Events.Zoom += OnZoom;
+                CropperService.ReadyEvent -= OnReady;
+                CropperService.ReadyEvent += OnReady;
+                CropperService.CropStartEvent -= OnCropStart;
+                CropperService.CropStartEvent += OnCropStart;
+                CropperService.CropMoveEvent -= OnCropMove;
+                CropperService.CropMoveEvent += OnCropMove;
+                CropperService.CropEndEvent -= OnCropEnd;
+                CropperService.CropEndEvent += OnCropEnd;
+                CropperService.CropEvent -= OnCrop;
+                CropperService.CropEvent += OnCrop;
+                CropperService.ZoomEvent -= OnZoom;
+                CropperService.ZoomEvent += OnZoom;
 
                 await CropperService.Create(imgRef, Options);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
@@ -286,43 +289,50 @@ namespace CropperCoreTest.Pages
 
         public async Task SetDragMode(DragMode mode)
         {
+            ResetError();
+
             try
             {
                 await CropperService.SetDragMode(mode);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
-                throw;
+                Error = ex.Message;
             }
         }
 
         private async Task Zoom(double value)
         {
+            ResetError();
+
             try
             {
                 await CropperService.Zoom(value);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task Move(double x, double y)
         {
+            ResetError();
+
             try
             {
                 await CropperService.Move(x, y);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task Rotate(double value)
         {
+            ResetError();
+
             try
             {
                 if (Options.ViewMode > ViewMode.NoRestriction)
@@ -333,254 +343,299 @@ namespace CropperCoreTest.Pages
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task Scale(double x, double y)
         {
+            ResetError();
+
             try
             {
                 await CropperService.Scale(x, y);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task ScaleX(double value)
         {
+            ResetError();
+
             try
             {
                 await CropperService.ScaleX(value);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
         public async Task ScaleY(double value)
         {
+            ResetError();
+
             try
             {
                 await CropperService.ScaleY(value);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task Crop()
         {
+            ResetError();
+
             try
             {
                 await CropperService.Crop();
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task Clear()
         {
+            ResetError();
+
             try
             {
                 await CropperService.Clear();
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task Disable()
         {
+            ResetError();
+
             try
             {
                 await CropperService.Disable();
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task Enable()
         {
+            ResetError();
+
             try
             {
                 await CropperService.Enable();
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task Reset()
         {
+            ResetError();
+
             try
             {
                 await CropperService.Reset();
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task Destroy()
         {
+            ResetError();
+
             try
             {
                 await CropperService.Destroy();
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
-        public async Task<CropperData> GetData()
+        public async Task<CropperData?> GetData()
         {
+            ResetError();
+
             try
             {
-                //var y = await CropperService.GetData(true);
-
                 var result = await CropperService.GetData();
-                jsonIO = System.Text.Json.JsonSerializer.Serialize(result);
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(result);
 
                 return result;
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
                 return null;
             }
         }
         public async Task SetData()
         {
+            ResetError();
+
             try
             {
-                if (string.IsNullOrEmpty(jsonIO)) return;
+                if (string.IsNullOrEmpty(JsonIO)) return;
 
-                var output = System.Text.Json.JsonSerializer.Deserialize<CropperData>(jsonIO);
-                await CropperService.SetData(output);
+                var output = System.Text.Json.JsonSerializer.Deserialize<CropperData>(JsonIO);
+                if (output is not null)
+                {
+                    await CropperService.SetData(output);
+                }
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task<CropperContainerData> GetContainerData()
         {
+            ResetError();
+
             try
             {
                 var result = await CropperService.GetContainerData();
-                jsonIO = System.Text.Json.JsonSerializer.Serialize(result);
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(result);
 
                 return result;
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
-                return null;
+                Error = ex.Message;
+                return null!;
             }
         }
 
         public async Task<CropperImageData> GetImageData()
         {
+            ResetError();
+
             try
             {
                 var result = await CropperService.GetImageData();
-                jsonIO = System.Text.Json.JsonSerializer.Serialize(result);
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(result);
 
                 return result;
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
-                return null;
+                Error = ex.Message;
+                return null!;
             }
         }
 
         public async Task<CropperGetCanvasData> GetCanvasData()
         {
+            ResetError();
+
             try
             {
                 var result = await CropperService.GetCanvasData();
-                jsonIO = System.Text.Json.JsonSerializer.Serialize(result);
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(result);
                 return result;
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
-                return null;
+                Error = ex.Message;
+                return null!;
             }
         }
 
         public async Task SetCanvasData()
         {
+            ResetError();
+
             try
             {
-                if (string.IsNullOrEmpty(jsonIO)) return;
+                if (string.IsNullOrEmpty(JsonIO)) return;
 
-                var output = System.Text.Json.JsonSerializer.Deserialize<CropperGetCanvasData>(jsonIO);
-                await CropperService.SetCanvasData(output);
+                var output = System.Text.Json.JsonSerializer.Deserialize<CropperGetCanvasData>(JsonIO);
+                if (output is not null)
+                {
+                    await CropperService.SetCanvasData(output);
+                }
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
         public async Task<CropperCropBoxData> GetCropBoxData()
         {
+            ResetError();
+
             try
             {
                 var result = await CropperService.GetCropBoxData();
-                jsonIO = System.Text.Json.JsonSerializer.Serialize(result);
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(result);
                 return result;
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
-                return null;
+                Error = ex.Message;
+                return null!;
             }
         }
 
         public async Task SetCropBoxData()
         {
+            ResetError();
+
             try
             {
-                if (string.IsNullOrEmpty(jsonIO)) return;
+                if (string.IsNullOrEmpty(JsonIO)) return;
 
-                var output = System.Text.Json.JsonSerializer.Deserialize<CropperCropBoxData>(jsonIO);
-                await CropperService.SetCropBoxData(output);
+                var output = System.Text.Json.JsonSerializer.Deserialize<CropperCropBoxData>(JsonIO);
+                if (output is not null)
+                {
+                    await CropperService.SetCropBoxData(output);
+                }
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task MoveTo(double value)
         {
+            ResetError();
+
             try
             {
                 await CropperService.MoveTo(value);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task ZoomTo(double value)
         {
+            ResetError();
+
             try
             {
                 //await CropperService.ZoomTo(value, new CropperZoomSchema { X = 20, Y = 50 });
@@ -588,27 +643,31 @@ namespace CropperCoreTest.Pages
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         public async Task RotateTo(double value)
         {
+            ResetError();
+
             try
             {
                 await CropperService.RotateTo(value);
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
         private async Task GetCroppedCanvas(double width, double height, double maxWidth = double.PositiveInfinity, double maxHeight = double.PositiveInfinity)
         {
+            ResetError();
+
             try
             {
-                CropperCroppedCanvas options = new CropperCroppedCanvas
+                CropperCroppedCanvas options = new()
                 {
                     Width = width,
                     Height = height,
@@ -626,13 +685,15 @@ namespace CropperCoreTest.Pages
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
 
         private async Task DisplayImageUsingStreaming(InputFileChangeEventArgs e)
         {
+            ResetError();
+
             try
             {
                 using (Stream reader = e.File.OpenReadStream(maxAllowedSize: 4000000))
@@ -649,7 +710,7 @@ namespace CropperCoreTest.Pages
             }
             catch (Exception ex)
             {
-                string message = ex.Message;
+                Error = ex.Message;
             }
         }
 
