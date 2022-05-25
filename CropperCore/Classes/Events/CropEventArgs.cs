@@ -8,12 +8,7 @@ using System.Threading.Tasks;
 
 namespace CropperCore.Classes.Events
 {
-    public class EventCropChangeArgs
+    public class CropEventArgs : CropperData
     {
-        [JsonPropertyName("action")]
-        public string Action { get; set; } = null!;
-
-        [JsonPropertyName("originalEvent")]
-        public PointerEventArgs OriginalEvent { get; set; } = null!;
     }
 }

@@ -5,10 +5,10 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(js|jsx)$/,
+                test: /\.(ts)$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader"
+                    loader: "ts-loader"
                 }
             }
         ]
@@ -16,7 +16,13 @@ module.exports = {
     //experiments: {
     //    outputModule: true
     //},
-    entry: './src/cropper_wrp.js',
+    resolve: {
+        extensions: ['.ts', '.js'],
+    },
+    optimization: {
+        minimize: true
+    },
+    entry: './src/cropper_wrp.ts',
     output: {
         path: path.resolve(__dirname, '../wwwroot/js'),
         filename: "crop_core.js",

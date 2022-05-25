@@ -327,7 +327,9 @@
                 </div>
             </div>
             <div class="row">
-                <img @ref="imgPrev" id="imagePrev" width="200" height="200" />
+                @*width="200" height="200"*@
+                <img @ref="imgPrev" id="imagePrev" alt="image preview"
+                style="object-fit:contain; width:300px; height:auto;"/>
                 @*style="overflow: hidden" *@
                 @*<canvas id="canvas" width="200" height="200"></canvas><br />*@
             </div>

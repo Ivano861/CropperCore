@@ -8,7 +8,12 @@ using System.Threading.Tasks;
 
 namespace CropperCore.Classes.Events
 {
-    public class EventCropArgs : CropperData
+    public class ZoomEventArgs
     {
+        [JsonPropertyName("oldRatio")]
+        public double OldRatio { get; set; }
+
+        [JsonPropertyName("ratio")]
+        public double Ratio { get; set; }
     }
 }

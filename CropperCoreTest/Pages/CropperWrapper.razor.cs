@@ -57,7 +57,7 @@ namespace CropperCoreTest.Pages
         private CropperOtions Options { get; set; } = new CropperOtions
         {
             AutoCrop = true,
-            ViewMode = CropperCore.Enumerates.ViewMode.RestrictCrop,
+            ViewMode = ViewMode.RestrictCrop,
             Preview = ".img-preview"
         };
 
@@ -66,31 +66,87 @@ namespace CropperCoreTest.Pages
             await Task.Delay(100);
         }
 
-        private async Task OnCropStart(object sender, EventCropChangeArgs args)
+        private async Task OnCropStartPointer(object sender, CropPointerEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropStartTouch(object sender, CropTouchEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropStartMouse(object sender, CropMouseEventArgs args)
         {
             await Task.Delay(100);
         }
 
-        private async Task OnCropMove(object sender, EventCropChangeArgs args)
+        private async Task OnCropMovePointer(object sender, CropPointerEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropMoveMouse(object sender, CropMouseEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropMoveTouch(object sender, CropTouchEventArgs args)
         {
             await Task.Delay(100);
         }
 
-        private async Task OnCropEnd(object sender, EventCropChangeArgs args)
+        private async Task OnCropEndPointer(object sender, CropPointerEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropEndPointerCancel(object sender, CropPointerEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropEndMouse(object sender, CropMouseEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropEndTouch(object sender, CropTouchEventArgs args)
+        {
+            await Task.Delay(100);
+        }
+        private async Task OnCropEndTouchCancel(object sender, CropTouchEventArgs args)
         {
             await Task.Delay(100);
         }
 
-        private async Task OnCrop(object sender, EventCropArgs args)
+        private async Task OnCrop(object sender, CropEventArgs args)
         {
             await Task.Delay(100);
         }
 
-        private bool OnZoom(object sender, EventZoomChangeArgs args)
+        private bool OnZoomMouse(object sender, ZoomMouseEventArgs args)
         {
             Task.Delay(100);
 
             return false;
+        }
+        private bool OnZoomPointer(object sender, ZoomPointerEventArgs args)
+        {
+            Task.Delay(100);
+
+            return false;
+        }
+        private bool OnZoomWheel(object sender, ZoomWheelEventArgs args)
+        {
+            Task.Delay(100);
+
+            return false;
+        }
+        private bool OnZoomTouch(object sender, ZoomTouchEventArgs args)
+        {
+            Task.Delay(100);
+
+            return false;
+        }
+        private bool OnZoomCommand(object sender, ZoomCommandEventArgs args)
+        {
+            Task.Delay(100);
+
+            return true;
         }
 
         public async Task SetResponsive(ChangeEventArgs args)
@@ -254,16 +310,44 @@ namespace CropperCoreTest.Pages
             {
                 CropperService.ReadyEvent -= OnReady;
                 CropperService.ReadyEvent += OnReady;
-                CropperService.CropStartEvent -= OnCropStart;
-                CropperService.CropStartEvent += OnCropStart;
-                CropperService.CropMoveEvent -= OnCropMove;
-                CropperService.CropMoveEvent += OnCropMove;
-                CropperService.CropEndEvent -= OnCropEnd;
-                CropperService.CropEndEvent += OnCropEnd;
+                CropperService.CropStartPointerDownEvent -= OnCropStartPointer;
+                CropperService.CropStartPointerDownEvent += OnCropStartPointer;
+                CropperService.CropStartMouseDownEvent -= OnCropStartMouse;
+                CropperService.CropStartMouseDownEvent += OnCropStartMouse;
+                CropperService.CropStartTouchStartEvent -= OnCropStartTouch;
+                CropperService.CropStartTouchStartEvent += OnCropStartTouch;
+
+                CropperService.CropMovePointerMoveEvent -= OnCropMovePointer;
+                CropperService.CropMovePointerMoveEvent += OnCropMovePointer;
+                CropperService.CropMoveMouseMoveEvent -= OnCropMoveMouse;
+                CropperService.CropMoveMouseMoveEvent += OnCropMoveMouse;
+                CropperService.CropMoveTouchMoveEvent -= OnCropMoveTouch;
+                CropperService.CropMoveTouchMoveEvent += OnCropMoveTouch;
+
+                CropperService.CropEndPointerUpEvent -= OnCropEndPointer;
+                CropperService.CropEndPointerUpEvent += OnCropEndPointer;
+                CropperService.CropEndPointerCancelEvent -= OnCropEndPointerCancel;
+                CropperService.CropEndPointerCancelEvent += OnCropEndPointerCancel;
+                CropperService.CropEndMouseUpEvent -= OnCropEndMouse;
+                CropperService.CropEndMouseUpEvent += OnCropEndMouse;
+                CropperService.CropEndTouchEndEvent -= OnCropEndTouch;
+                CropperService.CropEndTouchEndEvent += OnCropEndTouch;
+                CropperService.CropEndTouchCancelEvent -= OnCropEndTouchCancel;
+                CropperService.CropEndTouchCancelEvent += OnCropEndTouchCancel;
+
                 CropperService.CropEvent -= OnCrop;
                 CropperService.CropEvent += OnCrop;
-                CropperService.ZoomEvent -= OnZoom;
-                CropperService.ZoomEvent += OnZoom;
+
+                CropperService.ZoomMouseMoveEvent -= OnZoomMouse;
+                CropperService.ZoomMouseMoveEvent += OnZoomMouse;
+                CropperService.ZoomPointerMoveEvent -= OnZoomPointer;
+                CropperService.ZoomPointerMoveEvent += OnZoomPointer;
+                CropperService.ZoomWheelEvent -= OnZoomWheel;
+                CropperService.ZoomWheelEvent += OnZoomWheel;
+                CropperService.ZoomTouchMoveEvent -= OnZoomTouch;
+                CropperService.ZoomTouchMoveEvent += OnZoomTouch;
+                CropperService.ZoomCommandEvent -= OnZoomCommand;
+                CropperService.ZoomCommandEvent += OnZoomCommand;
 
                 await CropperService.Create(imgRef, Options);
             }
@@ -680,7 +764,8 @@ namespace CropperCoreTest.Pages
                     ImageSmoothingQuality = ImageSmoothingQuality.High
                 };
 
-                await CropperService.GetCroppedCanvas(imgPrev, options);
+                //await CropperService.GetCroppedCanvas(imgPrev, options);
+                await CropperService.GetCroppedCanvas("imagePrev", options);
                 //await CropperService.GetCroppedCanvas(options);
             }
             catch (Exception ex)

@@ -68,6 +68,7 @@ namespace CropperCore.Classes
         /// <summary>
         /// set the quality of image smoothing, one of "low" (default), "medium", or "high".
         /// </summary>
+        [JsonConverter(typeof(EnumDescriptionConverter<ImageSmoothingQuality>))]
         [JsonPropertyName("imageSmoothingQuality")]
         public ImageSmoothingQuality ImageSmoothingQuality { get; set; } = ImageSmoothingQuality.Low;
     }
