@@ -17,7 +17,7 @@ class CropperElement {
     private image: HTMLImageElement | HTMLCanvasElement;
 
     // Events
-    public onready: (event: Cropper.ReadyEvent<EventTarget>) => void;
+    public onready: (event: Cropper.CropperEvent) => void;
     public oncropstart: (event: Cropper.CropStartEvent) => void;
     public oncropmove: (event: Cropper.CropMoveEvent) => void;
     public oncropend: (event: Cropper.CropEndEvent) => void;
