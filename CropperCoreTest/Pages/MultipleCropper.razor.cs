@@ -59,7 +59,7 @@ namespace CropperCoreTest.Pages
                 await CropperService.Create(imgRef1, Options, "image1");
                 await CropperService.Create(imgRef2, Options, "image2");
             }
-            catch (Exception ex)
+            catch (Exception /*ex*/)
             {
                 //Error = ex.Message;
             }

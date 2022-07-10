@@ -1,5 +1,6 @@
 ﻿@page "/cropperwrapper"
 @using CropperCore.Enumerates
+@using CropperCoreTest.Components
 
 <h3>CropperWrapper</h3>
 
@@ -326,13 +327,18 @@
                     <label class="btn btn-outline-primary" for="mode3">VM3</label>
                 </div>
             </div>
-            <div class="row">
-                @*width="200" height="200"*@
-                <img @ref="imgPrev" id="imagePrev" alt="image preview"
-                style="object-fit:contain; width:300px; height:auto;"/>
-                @*style="overflow: hidden" *@
-                @*<canvas id="canvas" width="200" height="200"></canvas><br />*@
-            </div>
         </div>
+
+        @if (IsDialogOpen)
+        {
+            <ModalDialog Title="Cropped image"
+                     OnClose="@OnDialogClose">
+                <div class="h-100 d-flex align-items-center justify-content-center">
+                    <img @ref="imgPrev" id="imagePrev" alt="image preview"
+                     style="object-fit:contain; max-width:350px; max-height:350px;" />
+                </div>
+
+            </ModalDialog>
+        }
     </div>
 </div>

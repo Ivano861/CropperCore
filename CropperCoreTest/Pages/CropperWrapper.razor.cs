@@ -122,25 +122,25 @@ namespace CropperCoreTest.Pages
         {
             Task.Delay(100);
 
-            return false;
+            return true;
         }
         private bool OnZoomPointer(object sender, ZoomPointerEventArgs args)
         {
             Task.Delay(100);
 
-            return false;
+            return true;
         }
         private bool OnZoomWheel(object sender, ZoomWheelEventArgs args)
         {
             Task.Delay(100);
 
-            return false;
+            return true;
         }
         private bool OnZoomTouch(object sender, ZoomTouchEventArgs args)
         {
             Task.Delay(100);
 
-            return false;
+            return true;
         }
         private bool OnZoomCommand(object sender, ZoomCommandEventArgs args)
         {
@@ -764,6 +764,8 @@ namespace CropperCoreTest.Pages
                     ImageSmoothingQuality = ImageSmoothingQuality.High
                 };
 
+                await OpenDialog();
+
                 //await CropperService.GetCroppedCanvas(imgPrev, options);
                 await CropperService.GetCroppedCanvas("imagePrev", options);
                 //await CropperService.GetCroppedCanvas(options);
@@ -803,5 +805,21 @@ namespace CropperCoreTest.Pages
         //{
         //    await CropperService?.DisposeAsync();
         //}
+
+        public bool IsDialogOpen { get; set; } = false;
+
+        private async Task OnDialogClose(bool accepted)
+        {
+            IsDialogOpen = false;
+            StateHasChanged();
+
+            await Task.CompletedTask;
+        }
+
+        private async Task OpenDialog()
+        {
+            IsDialogOpen = true;
+            await InvokeAsync(StateHasChanged).ContinueWith((_) => Task.CompletedTask);
+        }
     }
 }

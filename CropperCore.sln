@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CropperCore", "CropperCore\CropperCore.csproj", "{8CFC575B-3903-423F-B6BE-E1D3DAB78DA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CropperCore", "CropperCore\CropperCore.csproj", "{8CFC575B-3903-423F-B6BE-E1D3DAB78DA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CropperCoreTest", "CropperCoreTest\CropperCoreTest.csproj", "{370D496A-2122-4E05-A3A3-29D5B29E6C8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CropperCoreTest", "CropperCoreTest\CropperCoreTest.csproj", "{370D496A-2122-4E05-A3A3-29D5B29E6C8C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
