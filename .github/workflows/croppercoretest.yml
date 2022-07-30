@@ -32,3 +32,10 @@ jobs:
       # publishes Blazor project to the release-folder
       - name: Publish .NET Core Project
         run: dotnet publish CropperCoreTest/CropperCoreTest.csproj -c Release -o release --nologo
+
+      - name: Commit wwwroot to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@3.5.9
+        with:
+          GITHUB_TOKEN: ${{ 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 }}
+          BRANCH: gh-pages
+          FOLDER: release/wwwroot
