@@ -67,3 +67,7 @@
     margin-right: 0;
     width: 2rem;
 }
+
+.no-overflow {
+    overflow: hidden;
+}

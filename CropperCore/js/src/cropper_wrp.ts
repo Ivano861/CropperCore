@@ -1,16 +1,6 @@
 ﻿import Cropper from "cropperjs";
 
-interface EventsInfo {
-    ready: boolean;
-    cropstart: boolean;
-    cropmove: boolean;
-    cropend: boolean;
-    crop: boolean;
-    zoom: boolean;
-}
-
 let cr_list = new Map<string, CropperElement>();
-
 
 class CropperElement {
     private cropper: Cropper;
@@ -24,20 +14,14 @@ class CropperElement {
     public oncrop: (event: Cropper.CropEvent) => void;
     public onzoom: (event: Cropper.ZoomEvent) => void;
 
-    constructor(img: string | HTMLImageElement | HTMLCanvasElement, option: Cropper.Options, dotNetHelper: DotNet.DotNetObject, events: EventsInfo) {
+    constructor(img: string | HTMLImageElement | HTMLCanvasElement, option: Cropper.Options, dotNetHelper: DotNet.DotNetObject) {
         if (!img) {
             throw "img is not defined";
         }
 
-        if ((events.ready || events.cropstart || events.cropend || events.cropmove || events.crop || events.zoom) && !dotNetHelper) {
-            throw "dotNetHelper is not defined, but event required";
+        if (!dotNetHelper) {
+            throw "dotNetHelper is required";
         }
-
-        console.log("events");
-        console.log(events);
-        console.log(events.ready);
-
-        console.log(option);
 
         if (typeof img === 'string') {
             let i = document.getElementById(img);
@@ -52,41 +36,23 @@ class CropperElement {
             this.image = img;
         }
 
-        if (events.ready) {
-            this.onready = (event) => this.addInternalReadyEvent(dotNetHelper, event);
+        this.onready = (event) => this.addInternalReadyEvent(dotNetHelper, event);
+        this.image.addEventListener('ready', this.onready);
 
-            this.image.addEventListener('ready', this.onready);
-        }
+        this.oncropstart = (event) => this.addInternalCropStartEvent(dotNetHelper, event);
+        this.image.addEventListener('cropstart', this.oncropstart);
 
-        if (events.cropstart) {
-            this.oncropstart = (event) => this.addInternalCropStartEvent(dotNetHelper, event);
+        this.oncropmove = (event) => this.addInternalCropMoveEvent(dotNetHelper, event);
+        this.image.addEventListener('cropmove', this.oncropmove);
 
-            this.image.addEventListener('cropstart', this.oncropstart);
-        }
+        this.oncropend = (event) => this.addInternalCropEndEvent(dotNetHelper, event);
+        this.image.addEventListener('cropend', this.oncropend);
 
-        if (events.cropmove) {
-            this.oncropmove = (event) => this.addInternalCropMoveEvent(dotNetHelper, event);
+        this.oncrop = (event) => this.addInternalCropEvent(dotNetHelper, event);
+        this.image.addEventListener('crop', this.oncrop);
 
-            this.image.addEventListener('cropmove', this.oncropmove);
-        }
-
-        if (events.cropend) {
-            this.oncropend = (event) => this.addInternalCropEndEvent(dotNetHelper, event);
-
-            this.image.addEventListener('cropend', this.oncropend);
-        }
-
-        if (events.crop) {
-            this.oncrop = (event) => this.addInternalCropEvent(dotNetHelper, event);
-
-            this.image.addEventListener('crop', this.oncrop);
-        }
-
-        if (events.zoom) {
-            this.onzoom = (event) => this.addInternalZoomEvent(dotNetHelper, event);
-
-            this.image.addEventListener('zoom', this.onzoom);
-        }
+        this.onzoom = (event) => this.addInternalZoomEvent(dotNetHelper, event);
+        this.image.addEventListener('zoom', this.onzoom);
 
         if (this.image instanceof HTMLCanvasElement)
             this.cropper = new Cropper(this.image, option);
@@ -97,24 +63,24 @@ class CropperElement {
     addInternalReadyEvent = (dotNetHelper: DotNet.DotNetObject, event: Cropper.ReadyEvent<EventTarget>) => {
         //console.log("console.log(event): " + event);
         //console.log(event);
-        dotNetHelper.invokeMethodAsync("OnReadyDelegate");
+        dotNetHelper.invokeMethodAsync("OnReadyCallback");
     }
 
     addInternalCropStartEvent = (dotNetHelper: DotNet.DotNetObject, event: Cropper.CropStartEvent) => {
         if ((event.detail.originalEvent instanceof PointerEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropStartPointerDownDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropStartPointerCallback", {
                 action: event.detail.action,
                 originalEvent: parsePointerEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropStartMouseDownDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropStartMouseCallback", {
                 action: event.detail.action,
                 originalEvent: parseMouseEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropStartTouchStartDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropStartTouchCallback", {
                 action: event.detail.action,
                 originalEvent: parseTouchEvent(event.detail.originalEvent)
             });
@@ -123,19 +89,19 @@ class CropperElement {
 
     addInternalCropMoveEvent = (dotNetHelper: DotNet.DotNetObject, event: Cropper.CropMoveEvent) => {
         if ((event.detail.originalEvent instanceof PointerEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropMovePonterMoveDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropMovePonterCallback", {
                 action: event.detail.action,
                 originalEvent: parsePointerEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropMoveMouseMoveDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropMoveMouseCallback", {
                 action: event.detail.action,
                 originalEvent: parseMouseEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropMoveTouchMoveDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropMoveTouchCallback", {
                 action: event.detail.action,
                 originalEvent: parseTouchEvent(event.detail.originalEvent)
             });
@@ -145,33 +111,33 @@ class CropperElement {
     addInternalCropEndEvent = (dotNetHelper: DotNet.DotNetObject, event: Cropper.CropEndEvent) => {
         if ((event.detail.originalEvent instanceof PointerEvent)) {
             if (event.detail.originalEvent.type === 'pointerup') {
-                dotNetHelper.invokeMethodAsync("OnCropEndPointerUpDelegate", {
+                dotNetHelper.invokeMethodAsync("OnCropEndPointerCallback", {
                     action: event.detail.action,
                     originalEvent: parsePointerEvent(event.detail.originalEvent)
                 });
             }
             else if (event.detail.originalEvent.type === 'pointercancel') {
-                dotNetHelper.invokeMethodAsync("OnCropEndPointerCancelDelegate", {
+                dotNetHelper.invokeMethodAsync("OnCropEndPointerCancelCallback", {
                     action: event.detail.action,
                     originalEvent: parsePointerEvent(event.detail.originalEvent)
                 });
             }
         }
         else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropEndMouseUpDelegate", {
+            dotNetHelper.invokeMethodAsync("OnCropEndMouseCallback", {
                 action: event.detail.action,
                 originalEvent: parseMouseEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
             if (event.detail.originalEvent.type === 'touchend') {
-                dotNetHelper.invokeMethodAsync("OnCropEndTouchEndDelegate", {
+                dotNetHelper.invokeMethodAsync("OnCropEndTouchCallback", {
                     action: event.detail.action,
                     originalEvent: parseTouchEvent(event.detail.originalEvent)
                 });
             }
             else if (event.detail.originalEvent.type === 'touchcancel') {
-                dotNetHelper.invokeMethodAsync("OnCropEndTouchCancelDelegate", {
+                dotNetHelper.invokeMethodAsync("OnCropEndTouchCancelCallback", {
                     action: event.detail.action,
                     originalEvent: parseTouchEvent(event.detail.originalEvent)
                 });
@@ -180,7 +146,7 @@ class CropperElement {
     }
 
     addInternalCropEvent = (dotNetHelper: DotNet.DotNetObject, event: Cropper.CropEvent) => {
-        dotNetHelper.invokeMethodAsync("OnCropDelegate", {
+        dotNetHelper.invokeMethodAsync("OnCropCallback", {
             x: event.detail.x,
             y: event.detail.y,
             width: event.detail.width,
@@ -194,35 +160,35 @@ class CropperElement {
     addInternalZoomEvent = (dotNetHelper: DotNet.DotNetObject, event: Cropper.ZoomEvent) => {
         let response: boolean = true;
         if ((event.detail.originalEvent instanceof PointerEvent)) {
-            response = dotNetHelper.invokeMethod<boolean>("OnZoomPointerMoveDelegate", {
+            response = dotNetHelper.invokeMethod<boolean>("OnZoomPointerCallback", {
                 oldRatio: event.detail.oldRatio,
                 ratio: event.detail.ratio,
                 originalEvent: parsePointerEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof WheelEvent)) {
-            response = dotNetHelper.invokeMethod<boolean>("OnZoomWheelDelegate", {
+            response = dotNetHelper.invokeMethod<boolean>("OnZoomWheelCallback", {
                 oldRatio: event.detail.oldRatio,
                 ratio: event.detail.ratio,
                 originalEvent: parseWheelEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            response = dotNetHelper.invokeMethod<boolean>("OnZoomMouseMoveDelegate", {
+            response = dotNetHelper.invokeMethod<boolean>("OnZoomMouseCallback", {
                 oldRatio: event.detail.oldRatio,
                 ratio: event.detail.ratio,
                 originalEvent: parseMouseEvent(event.detail.originalEvent)
             });
         }
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
-            response = dotNetHelper.invokeMethod<boolean>("OnZoomTouchMoveDelegate", {
+            response = dotNetHelper.invokeMethod<boolean>("OnZoomTouchCallback", {
                 oldRatio: event.detail.oldRatio,
                 ratio: event.detail.ratio,
                 originalEvent: parseTouchEvent(event.detail.originalEvent)
             });
         }
         else {
-            response = dotNetHelper.invokeMethod<boolean>("OnZoomCommandDelegate", {
+            response = dotNetHelper.invokeMethod<boolean>("OnZoomCommandCallback", {
                 oldRatio: event.detail.oldRatio,
                 ratio: event.detail.ratio,
                 originalEvent: parseEvent()
@@ -318,7 +284,7 @@ function getImage(name?: string): HTMLImageElement | HTMLCanvasElement {
 }
 
 
-export function create(img: string | HTMLImageElement | HTMLCanvasElement, option: Cropper.Options, dotNetHelper: DotNet.DotNetObject, events: EventsInfo, name?: string) {
+export function create(img: string | HTMLImageElement | HTMLCanvasElement, option: Cropper.Options, dotNetHelper: DotNet.DotNetObject, name?: string) {
     if (name === undefined || name === null) {
         name = "default";
     }
@@ -330,7 +296,7 @@ export function create(img: string | HTMLImageElement | HTMLCanvasElement, optio
         element.destroy();
         cr_list.delete(name);
     }
-    cr_list.set(name, new CropperElement(img, option, dotNetHelper, events));
+    cr_list.set(name, new CropperElement(img, option, dotNetHelper));
 }
 
 export function crop(name?: string) {
@@ -481,150 +447,6 @@ export function setDragMode(mode: Cropper.DragMode, name?: string) {
 }
 
 // Events
-export function addReady(dotNetHelper: DotNet.DotNetObject, name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        if (cr.onready) {
-            console.log("onready is active");
-            return;
-        }
-
-        console.log("add onready");
-        cr.onready = (event) => cr.addInternalReadyEvent(dotNetHelper, event);
-        getImage(name).addEventListener('ready', cr.onready);
-    }
-}
-export function removeReady(name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        console.log("remove onready");
-
-        getImage(name).removeEventListener('ready', cr.onready);
-
-        cr.onready = null;
-    }
-}
-
-export function addCropStart(dotNetHelper: DotNet.DotNetObject, name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        if (cr.oncropstart) {
-            console.log("oncropstart is active");
-            return;
-        }
-
-        console.log("add oncropstart");
-        cr.oncropstart = (event) => cr.addInternalCropStartEvent(dotNetHelper, event);
-        getImage(name).addEventListener('cropstart', cr.oncropstart);
-    }
-}
-export function removeCropStart(name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        console.log("remove oncropstart");
-
-        getImage(name).removeEventListener('cropstart', cr.oncropstart);
-
-        cr.oncropstart = null;
-    }
-}
-
-export function addCropMove(dotNetHelper, name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        if (cr.oncropmove) {
-            console.log("oncropmove is active");
-            return;
-        }
-
-        console.log("add oncropmove");
-        cr.oncropmove = (event) => cr.addInternalCropMoveEvent(dotNetHelper, event);
-        getImage(name).addEventListener('cropmove', cr.oncropmove);
-    }
-}
-export function removeCropMove(name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        console.log("remove oncropmove");
-
-        getImage(name).removeEventListener('cropmove', cr.oncropmove);
-
-        cr.oncropmove = null;
-    }
-}
-
-export function addCropEnd(dotNetHelper, name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        if (cr.oncropend) {
-            console.log("oncropend is active");
-            return;
-        }
-
-        console.log("add oncropend");
-        cr.oncropend = (event) => cr.addInternalCropEndEvent(dotNetHelper, event);
-        getImage(name).addEventListener('cropend', cr.oncropend);
-    }
-}
-export function removeCropEnd(name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        console.log("remove oncropend");
-
-        getImage(name).removeEventListener('cropend', cr.oncropend);
-
-        cr.oncropend = null;
-    }
-}
-
-export function addCrop(dotNetHelper, name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        if (cr.oncrop) {
-            console.log("oncrop is active");
-            return;
-        }
-
-        console.log("add oncrop");
-        cr.oncrop = (event) => cr.addInternalCropEvent(dotNetHelper, event);
-        getImage(name).addEventListener('crop', cr.oncrop);
-    }
-}
-export function removeCrop(name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        console.log("remove oncrop");
-
-        getImage(name).removeEventListener('crop', cr.oncrop);
-
-        cr.oncrop = null;
-    }
-}
-
-export function addZoom(dotNetHelper, name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        if (cr.onzoom) {
-            console.log("onzoom is active");
-            return;
-        }
-
-        console.log("add onzoom");
-        cr.onzoom = (event) => cr.addInternalZoomEvent(dotNetHelper, event);
-        getImage(name).addEventListener('zoom', cr.onzoom);
-    }
-}
-export function removeZoom(name?: string) {
-    if (cr_list && cr_list.has(name)) {
-        let cr = cr_list.get(name);
-        console.log("remove onzoom");
-
-        getImage(name).removeEventListener('zoom', cr.onzoom);
-
-        cr.onzoom = null;
-    }
-}
-
 function parseEvent() {
     return {}
 }

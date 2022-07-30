@@ -173,123 +173,264 @@
 
         <div class="col-md-3">
             <div class="row mb-3">
-                <div class="container">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="responsive"
-                               @onchange="@((args) => SetResponsive(args))"
-                               checked="@(Options.Responsive)" />
-                        <label class="form-check-label" for="responsive">responsive</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="restore"
-                               @onchange="@((args) => SetRestore(args))"
-                               checked="@(Options.Restore)" />
-                        <label class="form-check-label" for="restore">restore</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkCrossOrigin"
-                               @onchange="@((args) => SetCheckCrossOrigin(args))"
-                               checked="@(Options.CheckCrossOrigin)" />
-                        <label class="form-check-label" for="checkCrossOrigin">checkCrossOrigin</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="checkOrientation"
-                               @onchange="@((args) => SetCheckOrientation(args))"
-                               checked="@(Options.CheckOrientation)" />
-                        <label class="form-check-label" for="checkOrientation">checkOrientation</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="modal"
-                               @onchange="@((args) => SetModal(args))"
-                               checked="@(Options.Modal)" />
-                        <label class="form-check-label" for="modal">modal</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="guides"
-                               @onchange="@((args) => SetGuides(args))"
-                               checked="@(Options.Guides)" />
-                        <label class="form-check-label" for="guides">guides</label>
+                <div class="accordion" id="accordionCheck">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOptions">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOptions" aria-expanded="true" aria-controls="collapseOptions">
+                                Options
+                            </button>
+                        </h2>
+                        <div id="collapseOptions" class="accordion-collapse collapse show" aria-labelledby="headingOptions" data-bs-parent="#accordionCheck">
+                            <div class="accordion-body no-overflow">
+                                <div class="container-flex">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="responsive"
+                                               @onchange="@((args) => SetResponsive(args))"
+                                               checked="@(Options.Responsive)" />
+                                        <label class="form-check-label" for="responsive">responsive</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="restore"
+                                               @onchange="@((args) => SetRestore(args))"
+                                               checked="@(Options.Restore)" />
+                                        <label class="form-check-label" for="restore">restore</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkCrossOrigin"
+                                               @onchange="@((args) => SetCheckCrossOrigin(args))"
+                                               checked="@(Options.CheckCrossOrigin)" />
+                                        <label class="form-check-label" for="checkCrossOrigin">checkCrossOrigin</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="checkOrientation"
+                                               @onchange="@((args) => SetCheckOrientation(args))"
+                                               checked="@(Options.CheckOrientation)" />
+                                        <label class="form-check-label" for="checkOrientation">checkOrientation</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="modal"
+                                               @onchange="@((args) => SetModal(args))"
+                                               checked="@(Options.Modal)" />
+                                        <label class="form-check-label" for="modal">modal</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="guides"
+                                               @onchange="@((args) => SetGuides(args))"
+                                               checked="@(Options.Guides)" />
+                                        <label class="form-check-label" for="guides">guides</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="center"
+                                               @onchange="@((args) => SetCenter(args))"
+                                               checked="@(Options.Center)" />
+                                        <label class="form-check-label" for="center">center</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="highlight"
+                                               @onchange="@((args) => SetHighlight(args))"
+                                               checked="@(Options.Highlight)" />
+                                        <label class="form-check-label" for="highlight">highlight</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="background"
+                                               @onchange="@((args) => SetBackground(args))"
+                                               checked="@(Options.Background)" />
+                                        <label class="form-check-label" for="background">background</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="autoCrop"
+                                               @onchange="@((args) => SetAutoCrop(args))"
+                                               checked="@(Options.AutoCrop)" />
+                                        <label class="form-check-label" for="autoCrop">autoCrop</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="movable"
+                                               @onchange="@((args) => SetMovable(args))"
+                                               checked="@(Options.Movable)" />
+                                        <label class="form-check-label" for="movable">movable</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="rotatable"
+                                               @onchange="@((args) => SetRotatable(args))"
+                                               checked="@(Options.Rotatable)" />
+                                        <label class="form-check-label" for="rotatable">rotatable</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="scalable"
+                                               @onchange="@((args) => SetScalable(args))"
+                                               checked="@(Options.Scalable)" />
+                                        <label class="form-check-label" for="scalable">scalable</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomable"
+                                               @onchange="@((args) => SetZoomable(args))"
+                                               checked="@(Options.Zoomable)" />
+                                        <label class="form-check-label" for="zoomable">zoomable</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomOnTouch"
+                                               @onchange="@((args) => SetZoomOnTouch(args))"
+                                               checked="@(Options.ZoomOnTouch)" />
+                                        <label class="form-check-label" for="zoomOnTouch">zoomOnTouch</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomOnWheel"
+                                               @onchange="@((args) => SetZoomOnWheel(args))"
+                                               checked="@(Options.ZoomOnWheel)" />
+                                        <label class="form-check-label" for="zoomOnWheel">zoomOnWheel</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropBoxMovable"
+                                               @onchange="@((args) => SetCropBoxMovable(args))"
+                                               checked="@(Options.CropBoxMovable)" />
+                                        <label class="form-check-label" for="cropBoxMovable">cropBoxMovable</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropBoxResizable"
+                                               @onchange="@((args) => SetCropBoxResizable(args))"
+                                               checked="@(Options.CropBoxResizable)" />
+                                        <label class="form-check-label" for="cropBoxResizable">cropBoxResizable</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="toggleDragModeOnDblclick"
+                                               @onchange="@((args) => SetToggleDragModeOnDblclick(args))"
+                                               checked="@(Options.ToggleDragModeOnDblclick)" />
+                                        <label class="form-check-label" for="toggleDragModeOnDblclick">toggleDragModeOnDblclick</label>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="center"
-                               @onchange="@((args) => SetCenter(args))"
-                               checked="@(Options.Center)" />
-                        <label class="form-check-label" for="center">center</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="highlight"
-                               @onchange="@((args) => SetHighlight(args))"
-                               checked="@(Options.Highlight)" />
-                        <label class="form-check-label" for="highlight">highlight</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="background"
-                               @onchange="@((args) => SetBackground(args))"
-                               checked="@(Options.Background)" />
-                        <label class="form-check-label" for="background">background</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="autoCrop"
-                               @onchange="@((args) => SetAutoCrop(args))"
-                               checked="@(Options.AutoCrop)" />
-                        <label class="form-check-label" for="autoCrop">autoCrop</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="movable"
-                               @onchange="@((args) => SetMovable(args))"
-                               checked="@(Options.Movable)" />
-                        <label class="form-check-label" for="movable">movable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="rotatable"
-                               @onchange="@((args) => SetRotatable(args))"
-                               checked="@(Options.Rotatable)" />
-                        <label class="form-check-label" for="rotatable">rotatable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="scalable"
-                               @onchange="@((args) => SetScalable(args))"
-                               checked="@(Options.Scalable)" />
-                        <label class="form-check-label" for="scalable">scalable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="zoomable"
-                               @onchange="@((args) => SetZoomable(args))"
-                               checked="@(Options.Zoomable)" />
-                        <label class="form-check-label" for="zoomable">zoomable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="zoomOnTouch"
-                               @onchange="@((args) => SetZoomOnTouch(args))"
-                               checked="@(Options.ZoomOnTouch)" />
-                        <label class="form-check-label" for="zoomOnTouch">zoomOnTouch</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="zoomOnWheel"
-                               @onchange="@((args) => SetZoomOnWheel(args))"
-                               checked="@(Options.ZoomOnWheel)" />
-                        <label class="form-check-label" for="zoomOnWheel">zoomOnWheel</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="cropBoxMovable"
-                               @onchange="@((args) => SetCropBoxMovable(args))"
-                               checked="@(Options.CropBoxMovable)" />
-                        <label class="form-check-label" for="cropBoxMovable">cropBoxMovable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="cropBoxResizable"
-                               @onchange="@((args) => SetCropBoxResizable(args))"
-                               checked="@(Options.CropBoxResizable)" />
-                        <label class="form-check-label" for="cropBoxResizable">cropBoxResizable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="toggleDragModeOnDblclick"
-                               @onchange="@((args) => SetToggleDragModeOnDblclick(args))"
-                               checked="@(Options.ToggleDragModeOnDblclick)" />
-                        <label class="form-check-label" for="toggleDragModeOnDblclick">toggleDragModeOnDblclick</label>
-                    </div>
 
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingEvents">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents" aria-expanded="false" aria-controls="collapseEvents">
+                                Events
+                            </button>
+                        </h2>
+                        <div id="collapseEvents" class="accordion-collapse collapse" aria-labelledby="headingEvents" data-bs-parent="#accordionCheck">
+                            <div class="accordion-body no-overflow">
+                                <div class="container-flex">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="ready"
+                                               @onchange="@((args) => SetEvents(args, EventNames.ready))"
+                                               checked="@(OnReadyEnabled)" />
+                                        <label class="form-check-label" for="ready">Ready</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropStartPointerDown"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropStartPointerDown))"
+                                               checked="@(OnCropStartPointerDownEnabled)" />
+                                        <label class="form-check-label" for="cropStartPointerDown">CropStartPointerDown</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropStartTouchStart"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropStartTouchStart))"
+                                               checked="@(OnCropStartTouchStartEnabled)" />
+                                        <label class="form-check-label" for="cropStartTouchStart">CropStartTouchStart</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropStartMouseDown"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropStartMouseDown))"
+                                               checked="@(OnCropStartMouseDownEnabled)" />
+                                        <label class="form-check-label" for="cropStartMouseDown">CropStartMouseDown</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropMovePointerMove"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropMovePointerMove))"
+                                               checked="@(OnCropMovePointerMoveEnabled)" />
+                                        <label class="form-check-label" for="cropMovePointerMove">CropMovePointerMove</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropMoveTouchMove"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropMoveTouchMove))"
+                                               checked="@(OnCropMoveTouchMoveEnabled)" />
+                                        <label class="form-check-label" for="cropMoveTouchMove">CropMoveTouchMove</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropMoveMouseMove"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropMoveMouseMove))"
+                                               checked="@(OnCropMoveMouseMoveEnabled)" />
+                                        <label class="form-check-label" for="cropMoveMouseMove">CropMoveMouseMove</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropEndPointerUp"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropEndPointerUp))"
+                                               checked="@(OnCropEndPointerUpEnabled)" />
+                                        <label class="form-check-label" for="cropEndPointerUp">CropEndPointerUp</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropEndPointerCancel"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropEndPointerCancel))"
+                                               checked="@(OnCropEndPointerCancelEnabled)" />
+                                        <label class="form-check-label" for="cropEndPointerCancel">CropEndPointerCancel</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropEndTouchEnd"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropEndTouchEnd))"
+                                               checked="@(OnCropEndTouchEndEnabled)" />
+                                        <label class="form-check-label" for="cropEndTouchEnd">CropEndTouchEnd</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropEndTouchCancel"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropEndTouchCancel))"
+                                               checked="@(OnCropEndTouchCancelEnabled)" />
+                                        <label class="form-check-label" for="cropEndTouchCancel">CropEndTouchCancel</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="cropEndMouseUp"
+                                               @onchange="@((args) => SetEvents(args, EventNames.cropEndMouseUp))"
+                                               checked="@(OnCropEndMouseUpEnabled)" />
+                                        <label class="form-check-label" for="cropEndMouseUp">CropEndMouseUp</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="crop"
+                                               @onchange="@((args) => SetEvents(args, EventNames.crop))"
+                                               checked="@(OnCropEnabled)" />
+                                        <label class="form-check-label" for="crop">Crop</label>
+                                    </div>
+
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomMouseMove"
+                                               @onchange="@((args) => SetEvents(args, EventNames.zoomMouseMove))"
+                                               checked="@(OnZoomMouseMoveEnabled)" />
+                                        <label class="form-check-label" for="zoomMouseMove">ZoomMouseMove</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomPointerMove"
+                                               @onchange="@((args) => SetEvents(args, EventNames.zoomPointerMove))"
+                                               checked="@(OnZoomPointerMoveEnabled)" />
+                                        <label class="form-check-label" for="zoomPointerMove">ZoomPointerMove</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomWheel"
+                                               @onchange="@((args) => SetEvents(args, EventNames.zoomWheel))"
+                                               checked="@(OnZoomWheelEnabled)" />
+                                        <label class="form-check-label" for="zoomWheel">ZoomWheel</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomTouchMove"
+                                               @onchange="@((args) => SetEvents(args, EventNames.zoomTouchMove))"
+                                               checked="@(OnZoomTouchMoveEnabled)" />
+                                        <label class="form-check-label" for="zoomTouchMove">ZoomTouchMove</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="zoomCommand"
+                                               @onchange="@((args) => SetEvents(args, EventNames.zoomCommand))"
+                                               checked="@(OnZoomCommandEnabled)" />
+                                        <label class="form-check-label" for="zoomCommand">ZoomCommand</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -334,7 +475,7 @@
             <ModalDialog Title="Cropped image"
                      OnClose="@OnDialogClose">
                 <div class="h-100 d-flex align-items-center justify-content-center">
-                    <img @ref="imgPrev" id="imagePrev" alt="image preview"
+                    <img id="imagePrev" alt="image preview"
                      style="object-fit:contain; max-width:350px; max-height:350px;" />
                 </div>
 
