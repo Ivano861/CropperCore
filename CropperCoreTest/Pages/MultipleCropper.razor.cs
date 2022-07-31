@@ -27,7 +27,7 @@ namespace CropperCoreTest.Pages
 
        protected override void OnInitialized()
         {
-            imgUrl = "bridge.jpg";
+            imgUrl = "Bridge.jpg";
 
             base.OnInitialized();
         }
