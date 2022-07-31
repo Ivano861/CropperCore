@@ -15,12 +15,6 @@
     <ProjectReference Include="..\CropperCore\CropperCore.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\Bridge.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
