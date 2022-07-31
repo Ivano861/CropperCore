@@ -62,88 +62,275 @@ namespace CropperCoreTest.Pages
 
         private async Task OnReady(object sender, EventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnReady",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
 
         private async Task OnCropStartPointer(object sender, CropPointerEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropStartPointer",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropStartTouch(object sender, CropTouchEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropStartTouch",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropStartMouse(object sender, CropMouseEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropStartMouse",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
 
         private async Task OnCropMovePointer(object sender, CropPointerEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropMovePointer",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
+
+
+
+
         private async Task OnCropMoveMouse(object sender, CropMouseEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropMoveMouse",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropMoveTouch(object sender, CropTouchEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropMoveTouch",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
 
         private async Task OnCropEndPointer(object sender, CropPointerEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropEndPointer",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropEndPointerCancel(object sender, CropPointerEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropEndPointerCancel",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropEndMouse(object sender, CropMouseEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropEndMouse",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropEndTouch(object sender, CropTouchEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropEndTouch",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
         private async Task OnCropEndTouchCancel(object sender, CropTouchEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCropEndTouchCancel",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
 
         private async Task OnCrop(object sender, CropEventArgs args)
         {
-            await Task.Delay(100);
+            await Task.Run(() =>
+            {
+                var obj = new
+                {
+                    Event = "OnCrop",
+                    Argument = args
+                };
+
+                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+            });
+
+            StateHasChanged();
         }
 
         private bool OnZoomMouse(object sender, ZoomMouseEventArgs args)
         {
-            Task.Delay(100);
+            var obj = new
+            {
+                Event = "OnZoomMouse",
+                Argument = args
+            };
+
+            JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+
+            StateHasChanged();
 
             return true;
         }
         private bool OnZoomPointer(object sender, ZoomPointerEventArgs args)
         {
-            Task.Delay(100);
+            var obj = new
+            {
+                Event = "OnZoomPointer",
+                Argument = args
+            };
+
+            JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+
+            StateHasChanged();
 
             return true;
         }
         private bool OnZoomWheel(object sender, ZoomWheelEventArgs args)
         {
-            Task.Delay(100);
+            var obj = new
+            {
+                Event = "OnZoomWheel",
+                Argument = args
+            };
+
+            JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+
+            StateHasChanged();
 
             return true;
         }
         private bool OnZoomTouch(object sender, ZoomTouchEventArgs args)
         {
-            Task.Delay(100);
+            var obj = new
+            {
+                Event = "OnZoomTouch",
+                Argument = args
+            };
+
+            JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+
+            StateHasChanged();
 
             return true;
         }
         private bool OnZoomCommand(object sender, ZoomCommandEventArgs args)
         {
-            Task.Delay(100);
+            var obj = new
+            {
+                Event = "OnZoomCommand",
+                Argument = args
+            };
+
+            JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+
+            StateHasChanged();
 
             return true;
         }
