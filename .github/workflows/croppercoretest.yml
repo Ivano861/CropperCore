@@ -1,6 +1,8 @@
 # This is a basic workflow to help you get started with Actions
 
 name: Deploy to GitHub Pages
+env:
+  PUBLISH_DIR: release/wwwroot
 
 # Controls when the workflow will run
 on:
@@ -34,8 +36,14 @@ jobs:
         run: dotnet publish CropperCoreTest/CropperCoreTest.csproj -c Release -o release --nologo
 
       # changes the base-tag in index.html from '/' to 'CropperCore' to match GitHub Pages repository subdirectory
-      - name: Change base-tag in index.html from / to CropperCore
-        run: sed -i 's/<base href="\/" \/>/<base href="\/CropperCore\/" \/>/g' release/wwwroot/index.html
+      #- name: Change base-tag in index.html from / to CropperCore
+      #  run: sed -i 's/<base href="\/" \/>/<base href="\/CropperCore\/" \/>/g' release/wwwroot/index.html
+        
+      - name: Rewrite base href
+        uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
+        with:
+          html_path: ${{ env.PUBLISH_DIR }}/index.html
+          base_href: /CropperCoreTest/
 
       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
       - name: Add .nojekyll file
