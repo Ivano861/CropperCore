@@ -1,13 +1,6 @@
 ﻿using CropperCore.Classes;
-using CropperCore.Classes.Events;
-using CropperCore.Enumerates;
 using CropperCore.Services;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
 namespace CropperCoreTest.Pages
@@ -25,7 +18,7 @@ namespace CropperCoreTest.Pages
 
         private string imgUrl = null!;
 
-       protected override void OnInitialized()
+        protected override void OnInitialized()
         {
             imgUrl = "Bridge.jpg";
 

@@ -4,10 +4,6 @@ using CropperCore.Enumerates;
 using CropperCore.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
 namespace CropperCoreTest.Pages
@@ -66,8 +62,8 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnReady",
-                    Argument = args
+                    EventName = "OnReady",
+                    Event = args
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -82,8 +78,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropStartPointer",
-                    Argument = args
+                    EventName = "OnCropStartPointer",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -97,8 +94,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropStartTouch",
-                    Argument = args
+                    EventName = "OnCropStartTouch",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -112,8 +110,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropStartMouse",
-                    Argument = args
+                    EventName = "OnCropStartMouse",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -128,8 +127,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropMovePointer",
-                    Argument = args
+                    EventName = "OnCropMovePointer",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -147,8 +147,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropMoveMouse",
-                    Argument = args
+                    EventName = "OnCropMoveMouse",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -162,8 +163,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropMoveTouch",
-                    Argument = args
+                    EventName = "OnCropMoveTouch",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -178,8 +180,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropEndPointer",
-                    Argument = args
+                    EventName = "OnCropEndPointer",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -193,8 +196,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropEndPointerCancel",
-                    Argument = args
+                    EventName = "OnCropEndPointerCancel",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -208,8 +212,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropEndMouse",
-                    Argument = args
+                    EventName = "OnCropEndMouse",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -223,8 +228,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropEndTouch",
-                    Argument = args
+                    EventName = "OnCropEndTouch",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -238,8 +244,9 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCropEndTouchCancel",
-                    Argument = args
+                    EventName = "OnCropEndTouchCancel",
+                    args.Action,
+                    Event = args.OriginalEvent
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -254,8 +261,8 @@ namespace CropperCoreTest.Pages
             {
                 var obj = new
                 {
-                    Event = "OnCrop",
-                    Argument = args
+                    EventName = "OnCrop",
+                    Event = args
                 };
 
                 JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -268,8 +275,8 @@ namespace CropperCoreTest.Pages
         {
             var obj = new
             {
-                Event = "OnZoomMouse",
-                Argument = args
+                EventName = "OnZoomMouse",
+                Event = args
             };
 
             JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -282,8 +289,8 @@ namespace CropperCoreTest.Pages
         {
             var obj = new
             {
-                Event = "OnZoomPointer",
-                Argument = args
+                EventName = "OnZoomPointer",
+                Event = args
             };
 
             JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -296,8 +303,8 @@ namespace CropperCoreTest.Pages
         {
             var obj = new
             {
-                Event = "OnZoomWheel",
-                Argument = args
+                EventName = "OnZoomWheel",
+                Event = args
             };
 
             JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -310,8 +317,8 @@ namespace CropperCoreTest.Pages
         {
             var obj = new
             {
-                Event = "OnZoomTouch",
-                Argument = args
+                EventName = "OnZoomTouch",
+                Event = args
             };
 
             JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -324,8 +331,8 @@ namespace CropperCoreTest.Pages
         {
             var obj = new
             {
-                Event = "OnZoomCommand",
-                Argument = args
+                EventName = "OnZoomCommand",
+                Event = args
             };
 
             JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
@@ -1309,7 +1316,7 @@ namespace CropperCoreTest.Pages
             }
         }
 
-        public bool IsDialogOpen { get; set; } = false;
+        private bool IsDialogOpen { get; set; } = false;
 
         private async Task OnDialogClose(bool accepted)
         {
