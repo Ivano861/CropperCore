@@ -40,7 +40,7 @@ jobs:
       - name: Rewrite base href
         uses: SteveSandersonMS/ghaction-rewrite-base-href@v1
         with:
-          html_path: /CropperCore/index.html
+          html_path: CropperCore/index.html
           base_href: /CropperCoreTest/
 
       # add .nojekyll file to tell GitHub pages to not treat this as a Jekyll project. (Allow files and folders starting with an underscore)
