@@ -7,8 +7,8 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "CropperCore.dll": "sha256-JSplr2DVYRbNdoZ6dTeADptrqMvcZtkAwJEtPAp+5oQ=",
-      "CropperCoreTest.dll": "sha256-yMHgAiHtd+RsDqsTyt\/YBXjYh+4OrrIiMvJKAMLfs4c=",
+      "CropperCore.dll": "sha256-5KvrPnNIQjkljtvjBHFr\/6jfizRjjWsDoMmFz4eHF3M=",
+      "CropperCoreTest.dll": "sha256-WWgacAUUXhXn+bQkKL53xNn9ByL8pVcuOLHhcDkTGv4=",
       "Microsoft.AspNetCore.Components.dll": "sha256-GmcEAQFklna5ikZuMfdAsLBO5tCDAdRA21175XxsKqA=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-JxTUqd4IlD9xJr0MzvEhej9SCbfx4xOsZhn3ViUDQJM=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-vxUZComKknF2E+RFQd5flG96Q0VahsB3\/BTxY4W7b8M=",
