@@ -73,12 +73,12 @@ class CropperElement {
                 originalEvent: parsePointerEvent(event.detail.originalEvent)
             });
         }
-        else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropStartMouseCallback", {
-                action: event.detail.action,
-                originalEvent: parseMouseEvent(event.detail.originalEvent)
-            });
-        }
+        //else if ((event.detail.originalEvent instanceof MouseEvent)) {
+        //    dotNetHelper.invokeMethodAsync("OnCropStartMouseCallback", {
+        //        action: event.detail.action,
+        //        originalEvent: parseMouseEvent(event.detail.originalEvent)
+        //    });
+        //}
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
             dotNetHelper.invokeMethodAsync("OnCropStartTouchCallback", {
                 action: event.detail.action,
@@ -94,12 +94,12 @@ class CropperElement {
                 originalEvent: parsePointerEvent(event.detail.originalEvent)
             });
         }
-        else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropMoveMouseCallback", {
-                action: event.detail.action,
-                originalEvent: parseMouseEvent(event.detail.originalEvent)
-            });
-        }
+        //else if ((event.detail.originalEvent instanceof MouseEvent)) {
+        //    dotNetHelper.invokeMethodAsync("OnCropMoveMouseCallback", {
+        //        action: event.detail.action,
+        //        originalEvent: parseMouseEvent(event.detail.originalEvent)
+        //    });
+        //}
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
             dotNetHelper.invokeMethodAsync("OnCropMoveTouchCallback", {
                 action: event.detail.action,
@@ -123,12 +123,12 @@ class CropperElement {
                 });
             }
         }
-        else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            dotNetHelper.invokeMethodAsync("OnCropEndMouseCallback", {
-                action: event.detail.action,
-                originalEvent: parseMouseEvent(event.detail.originalEvent)
-            });
-        }
+        //else if ((event.detail.originalEvent instanceof MouseEvent)) {
+        //    dotNetHelper.invokeMethodAsync("OnCropEndMouseCallback", {
+        //        action: event.detail.action,
+        //        originalEvent: parseMouseEvent(event.detail.originalEvent)
+        //    });
+        //}
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
             if (event.detail.originalEvent.type === 'touchend') {
                 dotNetHelper.invokeMethodAsync("OnCropEndTouchCallback", {
@@ -173,13 +173,13 @@ class CropperElement {
                 originalEvent: parseWheelEvent(event.detail.originalEvent)
             });
         }
-        else if ((event.detail.originalEvent instanceof MouseEvent)) {
-            response = dotNetHelper.invokeMethod<boolean>("OnZoomMouseCallback", {
-                oldRatio: event.detail.oldRatio,
-                ratio: event.detail.ratio,
-                originalEvent: parseMouseEvent(event.detail.originalEvent)
-            });
-        }
+        //else if ((event.detail.originalEvent instanceof MouseEvent)) {
+        //    response = dotNetHelper.invokeMethod<boolean>("OnZoomMouseCallback", {
+        //        oldRatio: event.detail.oldRatio,
+        //        ratio: event.detail.ratio,
+        //        originalEvent: parseMouseEvent(event.detail.originalEvent)
+        //    });
+        //}
         else if ((event.detail.originalEvent instanceof TouchEvent)) {
             response = dotNetHelper.invokeMethod<boolean>("OnZoomTouchCallback", {
                 oldRatio: event.detail.oldRatio,

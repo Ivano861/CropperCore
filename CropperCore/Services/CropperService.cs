@@ -44,21 +44,21 @@ namespace CropperCore.Services
 
         public delegate Task EventCropStartPointerHandlerAsync(object sender, CropPointerEventArgs e);
         public delegate Task EventCropStartTouchHandlerAsync(object sender, CropTouchEventArgs e);
-        public delegate Task EventCropStartMouseHandlerAsync(object sender, CropMouseEventArgs e);
+        //public delegate Task EventCropStartMouseHandlerAsync(object sender, CropMouseEventArgs e);
 
         public delegate Task EventCropMovePointerHandlerAsync(object sender, CropPointerEventArgs e);
         public delegate Task EventCropMoveTouchHandlerAsync(object sender, CropTouchEventArgs e);
-        public delegate Task EventCropMoveMouseHandlerAsync(object sender, CropMouseEventArgs e);
+        //public delegate Task EventCropMoveMouseHandlerAsync(object sender, CropMouseEventArgs e);
 
         public delegate Task EventCropEndPointerHandlerAsync(object sender, CropPointerEventArgs e);
         public delegate Task EventCropEndPointerCancelHandlerAsync(object sender, CropPointerEventArgs e);
         public delegate Task EventCropEndTouchHandlerAsync(object sender, CropTouchEventArgs e);
         public delegate Task EventCropEndTouchCancelHandlerAsync(object sender, CropTouchEventArgs e);
-        public delegate Task EventCropEndMouseHandlerAsync(object sender, CropMouseEventArgs e);
+        //public delegate Task EventCropEndMouseHandlerAsync(object sender, CropMouseEventArgs e);
 
         public delegate Task EventCropHandlerAsync(object sender, CropEventArgs e);
 
-        public delegate bool EventZoomMouseHandler(object sender, ZoomMouseEventArgs e);
+        //public delegate bool EventZoomMouseHandler(object sender, ZoomMouseEventArgs e);
         public delegate bool EventZoomPointerHandler(object sender, ZoomPointerEventArgs e);
         public delegate bool EventZoomWheelHandler(object sender, ZoomWheelEventArgs e);
         public delegate bool EventZoomTouchHandler(object sender, ZoomTouchEventArgs e);
@@ -70,21 +70,21 @@ namespace CropperCore.Services
 
         public event EventCropStartPointerHandlerAsync? CropStartPointerEvent;
         public event EventCropStartTouchHandlerAsync? CropStartTouchEvent;
-        public event EventCropStartMouseHandlerAsync? CropStartMouseEvent;
+        //public event EventCropStartMouseHandlerAsync? CropStartMouseEvent;
 
         public event EventCropMovePointerHandlerAsync? CropMovePointerEvent;
         public event EventCropMoveTouchHandlerAsync? CropMoveTouchEvent;
-        public event EventCropMoveMouseHandlerAsync? CropMoveMouseEvent;
+        //public event EventCropMoveMouseHandlerAsync? CropMoveMouseEvent;
 
         public event EventCropEndPointerHandlerAsync? CropEndPointerEvent;
         public event EventCropEndPointerCancelHandlerAsync? CropEndPointerCancelEvent;
         public event EventCropEndTouchHandlerAsync? CropEndTouchEvent;
         public event EventCropEndTouchCancelHandlerAsync? CropEndTouchCancelEvent;
-        public event EventCropEndMouseHandlerAsync? CropEndMouseEvent;
+        //public event EventCropEndMouseHandlerAsync? CropEndMouseEvent;
 
         public event EventCropHandlerAsync? CropEvent;
 
-        public event EventZoomMouseHandler? ZoomMouseEvent;
+        //public event EventZoomMouseHandler? ZoomMouseEvent;
         public event EventZoomPointerHandler? ZoomPointerEvent;
         public event EventZoomWheelHandler? ZoomWheelEvent;
         public event EventZoomTouchHandler? ZoomTouchEvent;
@@ -112,6 +112,7 @@ namespace CropperCore.Services
                 await CropStartPointerEvent.Invoke(this, args);
             }
         }
+        [JSInvokable]
         public async Task OnCropStartTouchCallback(CropTouchEventArgs args)
         {
             if (CropStartTouchEvent is not null)
@@ -119,13 +120,14 @@ namespace CropperCore.Services
                 await CropStartTouchEvent.Invoke(this, args);
             }
         }
-        public async Task OnCropStartMouseCallback(CropMouseEventArgs args)
-        {
-            if (CropStartMouseEvent is not null)
-            {
-                await CropStartMouseEvent.Invoke(this, args);
-            }
-        }
+        //[JSInvokable]
+        //public async Task OnCropStartMouseCallback(CropMouseEventArgs args)
+        //{
+        //    if (CropStartMouseEvent is not null)
+        //    {
+        //        await CropStartMouseEvent.Invoke(this, args);
+        //    }
+        //}
         #endregion
 
         #region CropMove
@@ -137,6 +139,7 @@ namespace CropperCore.Services
                 await CropMovePointerEvent.Invoke(this, args);
             }
         }
+        [JSInvokable]
         public async Task OnCropMoveTouchCallback(CropTouchEventArgs args)
         {
             if (CropMoveTouchEvent is not null)
@@ -144,13 +147,14 @@ namespace CropperCore.Services
                 await CropMoveTouchEvent.Invoke(this, args);
             }
         }
-        public async Task OnCropMoveMouseCallback(CropMouseEventArgs args)
-        {
-            if (CropMoveMouseEvent is not null)
-            {
-                await CropMoveMouseEvent.Invoke(this, args);
-            }
-        }
+        //[JSInvokable]
+        //public async Task OnCropMoveMouseCallback(CropMouseEventArgs args)
+        //{
+        //    if (CropMoveMouseEvent is not null)
+        //    {
+        //        await CropMoveMouseEvent.Invoke(this, args);
+        //    }
+        //}
         #endregion
 
         #region CropEnd
@@ -162,6 +166,7 @@ namespace CropperCore.Services
                 await CropEndPointerEvent.Invoke(this, args);
             }
         }
+        [JSInvokable]
         public async Task OnCropEndPointerCancelCallback(CropPointerEventArgs args)
         {
             if (CropEndPointerCancelEvent is not null)
@@ -169,6 +174,7 @@ namespace CropperCore.Services
                 await CropEndPointerCancelEvent.Invoke(this, args);
             }
         }
+        [JSInvokable]
         public async Task OnCropEndTouchCallback(CropTouchEventArgs args)
         {
             if (CropEndTouchEvent is not null)
@@ -176,6 +182,7 @@ namespace CropperCore.Services
                 await CropEndTouchEvent.Invoke(this, args);
             }
         }
+        [JSInvokable]
         public async Task OnCropEndTouchCancelCallback(CropTouchEventArgs args)
         {
             if (CropEndTouchCancelEvent is not null)
@@ -184,13 +191,14 @@ namespace CropperCore.Services
             }
 
         }
-        public async Task OnCropEndMouseCallback(CropMouseEventArgs args)
-        {
-            if (CropEndMouseEvent is not null)
-            {
-                await CropEndMouseEvent.Invoke(this, args);
-            }
-        }
+        //[JSInvokable]
+        //public async Task OnCropEndMouseCallback(CropMouseEventArgs args)
+        //{
+        //    if (CropEndMouseEvent is not null)
+        //    {
+        //        await CropEndMouseEvent.Invoke(this, args);
+        //    }
+        //}
         #endregion
 
         #region Crop
@@ -205,16 +213,16 @@ namespace CropperCore.Services
         #endregion
 
         #region Zoom
-        [JSInvokable]
-        public bool OnZoomMouseCallback(ZoomMouseEventArgs args)
-        {
-            if (ZoomMouseEvent is not null)
-            {
-                return ZoomMouseEvent.Invoke(this, args);
-            }
+        //[JSInvokable]
+        //public bool OnZoomMouseCallback(ZoomMouseEventArgs args)
+        //{
+        //    if (ZoomMouseEvent is not null)
+        //    {
+        //        return ZoomMouseEvent.Invoke(this, args);
+        //    }
 
-            return true;
-        }
+        //    return true;
+        //}
         [JSInvokable]
         public bool OnZoomPointerCallback(ZoomPointerEventArgs args)
         {
@@ -650,12 +658,12 @@ namespace CropperCore.Services
                 foreach (var d in clientList)
                     CropStartTouchEvent -= (d as EventCropStartTouchHandlerAsync);
             }
-            if (CropStartMouseEvent is not null)
-            {
-                Delegate[] clientList = CropStartMouseEvent.GetInvocationList();
-                foreach (var d in clientList)
-                    CropStartMouseEvent -= (d as EventCropStartMouseHandlerAsync);
-            }
+            //if (CropStartMouseEvent is not null)
+            //{
+            //    Delegate[] clientList = CropStartMouseEvent.GetInvocationList();
+            //    foreach (var d in clientList)
+            //        CropStartMouseEvent -= (d as EventCropStartMouseHandlerAsync);
+            //}
 
             if (CropMovePointerEvent is not null)
             {
@@ -669,12 +677,12 @@ namespace CropperCore.Services
                 foreach (var d in clientList)
                     CropMoveTouchEvent -= (d as EventCropMoveTouchHandlerAsync);
             }
-            if (CropMoveMouseEvent is not null)
-            {
-                Delegate[] clientList = CropMoveMouseEvent.GetInvocationList();
-                foreach (var d in clientList)
-                    CropMoveMouseEvent -= (d as EventCropMoveMouseHandlerAsync);
-            }
+            //if (CropMoveMouseEvent is not null)
+            //{
+            //    Delegate[] clientList = CropMoveMouseEvent.GetInvocationList();
+            //    foreach (var d in clientList)
+            //        CropMoveMouseEvent -= (d as EventCropMoveMouseHandlerAsync);
+            //}
 
             if (CropEndPointerEvent is not null)
             {
@@ -700,12 +708,12 @@ namespace CropperCore.Services
                 foreach (var d in clientList)
                     CropEndTouchCancelEvent -= (d as EventCropEndTouchCancelHandlerAsync);
             }
-            if (CropEndMouseEvent is not null)
-            {
-                Delegate[] clientList = CropEndMouseEvent.GetInvocationList();
-                foreach (var d in clientList)
-                    CropEndMouseEvent -= (d as EventCropEndMouseHandlerAsync);
-            }
+            //if (CropEndMouseEvent is not null)
+            //{
+            //    Delegate[] clientList = CropEndMouseEvent.GetInvocationList();
+            //    foreach (var d in clientList)
+            //        CropEndMouseEvent -= (d as EventCropEndMouseHandlerAsync);
+            //}
 
             if (CropEvent is not null)
             {
@@ -714,12 +722,12 @@ namespace CropperCore.Services
                     CropEvent -= (d as EventCropHandlerAsync);
             }
 
-            if (ZoomMouseEvent is not null)
-            {
-                Delegate[] clientList = ZoomMouseEvent.GetInvocationList();
-                foreach (var d in clientList)
-                    ZoomMouseEvent -= (d as EventZoomMouseHandler);
-            }
+            //if (ZoomMouseEvent is not null)
+            //{
+            //    Delegate[] clientList = ZoomMouseEvent.GetInvocationList();
+            //    foreach (var d in clientList)
+            //        ZoomMouseEvent -= (d as EventZoomMouseHandler);
+            //}
             if (ZoomPointerEvent is not null)
             {
                 Delegate[] clientList = ZoomPointerEvent.GetInvocationList();

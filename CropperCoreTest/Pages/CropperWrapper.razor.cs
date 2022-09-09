@@ -104,22 +104,22 @@ namespace CropperCoreTest.Pages
 
             StateHasChanged();
         }
-        private async Task OnCropStartMouse(object sender, CropMouseEventArgs args)
-        {
-            await Task.Run(() =>
-            {
-                var obj = new
-                {
-                    EventName = "OnCropStartMouse",
-                    args.Action,
-                    Event = args.OriginalEvent
-                };
+        //private async Task OnCropStartMouse(object sender, CropMouseEventArgs args)
+        //{
+        //    await Task.Run(() =>
+        //    {
+        //        var obj = new
+        //        {
+        //            EventName = "OnCropStartMouse",
+        //            args.Action,
+        //            Event = args.OriginalEvent
+        //        };
 
-                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
-            });
+        //        JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+        //    });
 
-            StateHasChanged();
-        }
+        //    StateHasChanged();
+        //}
 
         private async Task OnCropMovePointer(object sender, CropPointerEventArgs args)
         {
@@ -138,25 +138,22 @@ namespace CropperCoreTest.Pages
             StateHasChanged();
         }
 
+        //private async Task OnCropMoveMouse(object sender, CropMouseEventArgs args)
+        //{
+        //    await Task.Run(() =>
+        //    {
+        //        var obj = new
+        //        {
+        //            EventName = "OnCropMoveMouse",
+        //            args.Action,
+        //            Event = args.OriginalEvent
+        //        };
 
+        //        JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+        //    });
 
-
-        private async Task OnCropMoveMouse(object sender, CropMouseEventArgs args)
-        {
-            await Task.Run(() =>
-            {
-                var obj = new
-                {
-                    EventName = "OnCropMoveMouse",
-                    args.Action,
-                    Event = args.OriginalEvent
-                };
-
-                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
-            });
-
-            StateHasChanged();
-        }
+        //    StateHasChanged();
+        //}
         private async Task OnCropMoveTouch(object sender, CropTouchEventArgs args)
         {
             await Task.Run(() =>
@@ -206,22 +203,22 @@ namespace CropperCoreTest.Pages
 
             StateHasChanged();
         }
-        private async Task OnCropEndMouse(object sender, CropMouseEventArgs args)
-        {
-            await Task.Run(() =>
-            {
-                var obj = new
-                {
-                    EventName = "OnCropEndMouse",
-                    args.Action,
-                    Event = args.OriginalEvent
-                };
+        //private async Task OnCropEndMouse(object sender, CropMouseEventArgs args)
+        //{
+        //    await Task.Run(() =>
+        //    {
+        //        var obj = new
+        //        {
+        //            EventName = "OnCropEndMouse",
+        //            args.Action,
+        //            Event = args.OriginalEvent
+        //        };
 
-                JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
-            });
+        //        JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+        //    });
 
-            StateHasChanged();
-        }
+        //    StateHasChanged();
+        //}
         private async Task OnCropEndTouch(object sender, CropTouchEventArgs args)
         {
             await Task.Run(() =>
@@ -271,20 +268,20 @@ namespace CropperCoreTest.Pages
             StateHasChanged();
         }
 
-        private bool OnZoomMouse(object sender, ZoomMouseEventArgs args)
-        {
-            var obj = new
-            {
-                EventName = "OnZoomMouse",
-                Event = args
-            };
+        //private bool OnZoomMouse(object sender, ZoomMouseEventArgs args)
+        //{
+        //    var obj = new
+        //    {
+        //        EventName = "OnZoomMouse",
+        //        Event = args
+        //    };
 
-            JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
+        //    JsonIO = System.Text.Json.JsonSerializer.Serialize(obj);
 
-            StateHasChanged();
+        //    StateHasChanged();
 
-            return true;
-        }
+        //    return true;
+        //}
         private bool OnZoomPointer(object sender, ZoomPointerEventArgs args)
         {
             var obj = new
@@ -501,21 +498,21 @@ namespace CropperCoreTest.Pages
 
             cropStartPointerDown,
             cropStartTouchStart,
-            cropStartMouseDown,
+            //cropStartMouseDown,
 
             cropMovePointerMove,
             cropMoveTouchMove,
-            cropMoveMouseMove,
+            //cropMoveMouseMove,
 
             cropEndPointerUp,
             cropEndPointerCancel,
             cropEndTouchEnd,
             cropEndTouchCancel,
-            cropEndMouseUp,
+            //cropEndMouseUp,
 
             crop,
 
-            zoomMouseMove,
+            //zoomMouseMove,
             zoomPointerMove,
             zoomWheel,
             zoomTouchMove,
@@ -526,21 +523,21 @@ namespace CropperCoreTest.Pages
 
         private bool OnCropStartPointerDownEnabled { get; set; } = true;
         private bool OnCropStartTouchStartEnabled { get; set; } = true;
-        private bool OnCropStartMouseDownEnabled { get; set; } = true;
+        //private bool OnCropStartMouseDownEnabled { get; set; } = true;
 
         private bool OnCropMovePointerMoveEnabled { get; set; } = true;
         private bool OnCropMoveTouchMoveEnabled { get; set; } = true;
-        private bool OnCropMoveMouseMoveEnabled { get; set; } = true;
+        //private bool OnCropMoveMouseMoveEnabled { get; set; } = true;
 
         private bool OnCropEndPointerUpEnabled { get; set; } = true;
         private bool OnCropEndPointerCancelEnabled { get; set; } = true;
         private bool OnCropEndTouchEndEnabled { get; set; } = true;
         private bool OnCropEndTouchCancelEnabled { get; set; } = true;
-        private bool OnCropEndMouseUpEnabled { get; set; } = true;
+        //private bool OnCropEndMouseUpEnabled { get; set; } = true;
 
         private bool OnCropEnabled { get; set; } = true;
 
-        private bool OnZoomMouseMoveEnabled { get; set; } = true;
+        //private bool OnZoomMouseMoveEnabled { get; set; } = true;
         private bool OnZoomPointerMoveEnabled { get; set; } = true;
         private bool OnZoomWheelEnabled { get; set; } = true;
         private bool OnZoomTouchMoveEnabled { get; set; } = true;
@@ -586,17 +583,17 @@ namespace CropperCoreTest.Pages
                         CropperService.CropStartTouchEvent -= OnCropStartTouch;
                     }
                     break;
-                case EventNames.cropStartMouseDown:
-                    OnCropStartMouseDownEnabled = (bool?)args.Value ?? false;
-                    if (OnCropStartMouseDownEnabled)
-                    {
-                        CropperService.CropStartMouseEvent += OnCropStartMouse;
-                    }
-                    else
-                    {
-                        CropperService.CropStartMouseEvent -= OnCropStartMouse; ;
-                    }
-                    break;
+                //case EventNames.cropStartMouseDown:
+                //    OnCropStartMouseDownEnabled = (bool?)args.Value ?? false;
+                //    if (OnCropStartMouseDownEnabled)
+                //    {
+                //        CropperService.CropStartMouseEvent += OnCropStartMouse;
+                //    }
+                //    else
+                //    {
+                //        CropperService.CropStartMouseEvent -= OnCropStartMouse; ;
+                //    }
+                //    break;
 
                 case EventNames.cropMovePointerMove:
                     OnCropMovePointerMoveEnabled = (bool?)args.Value ?? false;
@@ -620,17 +617,17 @@ namespace CropperCoreTest.Pages
                         CropperService.CropMoveTouchEvent -= OnCropMoveTouch; ;
                     }
                     break;
-                case EventNames.cropMoveMouseMove:
-                    OnCropMoveMouseMoveEnabled = (bool?)args.Value ?? false;
-                    if (OnCropMoveMouseMoveEnabled)
-                    {
-                        CropperService.CropMoveMouseEvent += OnCropMoveMouse;
-                    }
-                    else
-                    {
-                        CropperService.CropMoveMouseEvent -= OnCropMoveMouse;
-                    }
-                    break;
+                //case EventNames.cropMoveMouseMove:
+                //    OnCropMoveMouseMoveEnabled = (bool?)args.Value ?? false;
+                //    if (OnCropMoveMouseMoveEnabled)
+                //    {
+                //        CropperService.CropMoveMouseEvent += OnCropMoveMouse;
+                //    }
+                //    else
+                //    {
+                //        CropperService.CropMoveMouseEvent -= OnCropMoveMouse;
+                //    }
+                //    break;
 
                 case EventNames.cropEndPointerUp:
 
@@ -677,17 +674,17 @@ namespace CropperCoreTest.Pages
                         CropperService.CropEndTouchCancelEvent -= OnCropEndTouchCancel;
                     }
                     break;
-                case EventNames.cropEndMouseUp:
-                    OnCropEndMouseUpEnabled = (bool?)args.Value ?? false;
-                    if (OnCropEndMouseUpEnabled)
-                    {
-                        CropperService.CropEndMouseEvent += OnCropEndMouse;
-                    }
-                    else
-                    {
-                        CropperService.CropEndMouseEvent -= OnCropEndMouse;
-                    }
-                    break;
+                //case EventNames.cropEndMouseUp:
+                //    OnCropEndMouseUpEnabled = (bool?)args.Value ?? false;
+                //    if (OnCropEndMouseUpEnabled)
+                //    {
+                //        CropperService.CropEndMouseEvent += OnCropEndMouse;
+                //    }
+                //    else
+                //    {
+                //        CropperService.CropEndMouseEvent -= OnCropEndMouse;
+                //    }
+                //    break;
 
                 case EventNames.crop:
                     OnCropEnabled = (bool?)args.Value ?? false;
@@ -701,17 +698,17 @@ namespace CropperCoreTest.Pages
                     }
                     break;
 
-                case EventNames.zoomMouseMove:
-                    OnZoomMouseMoveEnabled = (bool?)args.Value ?? false;
-                    if (OnZoomMouseMoveEnabled)
-                    {
-                        CropperService.ZoomMouseEvent += OnZoomMouse;
-                    }
-                    else
-                    {
-                        CropperService.ZoomMouseEvent -= OnZoomMouse;
-                    }
-                    break;
+                //case EventNames.zoomMouseMove:
+                //    OnZoomMouseMoveEnabled = (bool?)args.Value ?? false;
+                //    if (OnZoomMouseMoveEnabled)
+                //    {
+                //        CropperService.ZoomMouseEvent += OnZoomMouse;
+                //    }
+                //    else
+                //    {
+                //        CropperService.ZoomMouseEvent -= OnZoomMouse;
+                //    }
+                //    break;
                 case EventNames.zoomPointerMove:
                     OnZoomPointerMoveEnabled = (bool?)args.Value ?? false;
                     if (OnZoomPointerMoveEnabled)
@@ -786,27 +783,27 @@ namespace CropperCoreTest.Pages
                 {
                     CropperService.CropStartTouchEvent += OnCropStartTouch;
                 }
-                CropperService.CropStartMouseEvent -= OnCropStartMouse;
-                if (OnCropStartMouseDownEnabled)
-                {
-                    CropperService.CropStartMouseEvent += OnCropStartMouse;
-                }
+                //CropperService.CropStartMouseEvent -= OnCropStartMouse;
+                //if (OnCropStartMouseDownEnabled)
+                //{
+                //    CropperService.CropStartMouseEvent += OnCropStartMouse;
+                //}
 
                 CropperService.CropMovePointerEvent -= OnCropMovePointer;
                 if (OnCropMovePointerMoveEnabled)
                 {
                     CropperService.CropMovePointerEvent += OnCropMovePointer;
                 }
-                CropperService.CropMoveMouseEvent -= OnCropMoveMouse;
+                CropperService.CropMoveTouchEvent -= OnCropMoveTouch;
                 if (OnCropMoveTouchMoveEnabled)
                 {
                     CropperService.CropMoveTouchEvent += OnCropMoveTouch;
                 }
-                CropperService.CropMoveTouchEvent -= OnCropMoveTouch;
-                if (OnCropMoveMouseMoveEnabled)
-                {
-                    CropperService.CropMoveMouseEvent += OnCropMoveMouse;
-                }
+                //CropperService.CropMoveMouseEvent -= OnCropMoveMouse;
+                //if (OnCropMoveMouseMoveEnabled)
+                //{
+                //    CropperService.CropMoveMouseEvent += OnCropMoveMouse;
+                //}
 
                 CropperService.CropEndPointerEvent -= OnCropEndPointer;
                 if (OnCropEndPointerUpEnabled)
@@ -818,11 +815,11 @@ namespace CropperCoreTest.Pages
                 {
                     CropperService.CropEndPointerCancelEvent += OnCropEndPointerCancel;
                 }
-                CropperService.CropEndMouseEvent -= OnCropEndMouse;
-                if (OnCropEndMouseUpEnabled)
-                {
-                    CropperService.CropEndMouseEvent += OnCropEndMouse;
-                }
+                //CropperService.CropEndMouseEvent -= OnCropEndMouse;
+                //if (OnCropEndMouseUpEnabled)
+                //{
+                //    CropperService.CropEndMouseEvent += OnCropEndMouse;
+                //}
                 CropperService.CropEndTouchEvent -= OnCropEndTouch;
                 if (OnCropEndTouchEndEnabled)
                 {
@@ -840,11 +837,11 @@ namespace CropperCoreTest.Pages
                     CropperService.CropEvent += OnCrop;
                 }
 
-                CropperService.ZoomMouseEvent -= OnZoomMouse;
-                if (OnZoomMouseMoveEnabled)
-                {
-                    CropperService.ZoomMouseEvent += OnZoomMouse;
-                }
+                //CropperService.ZoomMouseEvent -= OnZoomMouse;
+                //if (OnZoomMouseMoveEnabled)
+                //{
+                //    CropperService.ZoomMouseEvent += OnZoomMouse;
+                //}
                 CropperService.ZoomPointerEvent -= OnZoomPointer;
                 if (OnZoomPointerMoveEnabled)
                 {

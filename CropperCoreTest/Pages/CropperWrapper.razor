@@ -332,13 +332,12 @@
                                                checked="@(OnCropStartTouchStartEnabled)" />
                                         <label class="form-check-label" for="cropStartTouchStart">CropStartTouchStart</label>
                                     </div>
-                                    <div class="form-check">
+                                    @*<div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="cropStartMouseDown"
                                                @onchange="@((args) => SetEvents(args, EventNames.cropStartMouseDown))"
                                                checked="@(OnCropStartMouseDownEnabled)" />
                                         <label class="form-check-label" for="cropStartMouseDown">CropStartMouseDown</label>
-                                    </div>
-
+                                    </div>*@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="cropMovePointerMove"
                                                @onchange="@((args) => SetEvents(args, EventNames.cropMovePointerMove))"
@@ -351,12 +350,12 @@
                                                checked="@(OnCropMoveTouchMoveEnabled)" />
                                         <label class="form-check-label" for="cropMoveTouchMove">CropMoveTouchMove</label>
                                     </div>
-                                    <div class="form-check">
+                                    @*<div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="cropMoveMouseMove"
                                                @onchange="@((args) => SetEvents(args, EventNames.cropMoveMouseMove))"
                                                checked="@(OnCropMoveMouseMoveEnabled)" />
                                         <label class="form-check-label" for="cropMoveMouseMove">CropMoveMouseMove</label>
-                                    </div>
+                                    </div>*@
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="cropEndPointerUp"
@@ -382,12 +381,12 @@
                                                checked="@(OnCropEndTouchCancelEnabled)" />
                                         <label class="form-check-label" for="cropEndTouchCancel">CropEndTouchCancel</label>
                                     </div>
-                                    <div class="form-check">
+                                    @*<div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="cropEndMouseUp"
                                                @onchange="@((args) => SetEvents(args, EventNames.cropEndMouseUp))"
                                                checked="@(OnCropEndMouseUpEnabled)" />
                                         <label class="form-check-label" for="cropEndMouseUp">CropEndMouseUp</label>
-                                    </div>
+                                    </div>*@
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="crop"
@@ -396,12 +395,12 @@
                                         <label class="form-check-label" for="crop">Crop</label>
                                     </div>
 
-                                    <div class="form-check">
+                                    @*<div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="zoomMouseMove"
                                                @onchange="@((args) => SetEvents(args, EventNames.zoomMouseMove))"
                                                checked="@(OnZoomMouseMoveEnabled)" />
                                         <label class="form-check-label" for="zoomMouseMove">ZoomMouseMove</label>
-                                    </div>
+                                    </div>*@
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="zoomPointerMove"
                                                @onchange="@((args) => SetEvents(args, EventNames.zoomPointerMove))"
